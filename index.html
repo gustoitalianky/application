@@ -140,15 +140,6 @@
             outline: none;
         }
 
-        .inline-qty-input {
-            width: 80px !important;
-            display: inline-block;
-            margin-left: 10px;
-            padding: 6px;
-            text-align: center;
-            -webkit-appearance: number-input;
-        }
-
         .options-grid {
             display: flex;
             flex-direction: column;
@@ -167,14 +158,48 @@
             transform: scale(1.2);
         }
 
-        .instruction-text {
-            font-size: 9.5pt;
-            line-height: 1.4;
+        /* Legal Onboarding Document Links Styling */
+        .doc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .doc-link-card {
+            display: flex;
+            align-items: center;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 14px 18px;
+            text-decoration: none;
+            color: #111;
+            font-weight: 600;
+            font-size: 10.5pt;
+            transition: all 0.2s ease;
+        }
+
+        .doc-link-card:hover {
+            background-color: #f1f3f5;
+            border-color: #111;
+            transform: translateX(3px);
+        }
+
+        .doc-icon {
+            font-size: 14pt;
+            margin-right: 12px;
+        }
+
+        .instruction-box {
+            background-color: #fff9db;
+            border-left: 4px solid #fcc419;
+            padding: 15px;
+            font-size: 10pt;
             color: #444;
-            margin-bottom: 15px;
-            background-color: #f9f9f9;
-            padding: 12px;
-            border-left: 3px solid #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
         }
 
         .legal-block {
@@ -217,7 +242,6 @@
             display: block;
         }
 
-        /* Prominent Highlighted Action Button */
         .btn-pdf {
             background-color: #000000;
             color: #ffffff;
@@ -236,11 +260,11 @@
             .btn-action { width: auto; padding: 16px 50px; }
         }
 
-        /* Clean Print Settings - Hides the Download controls entirely from the generated PDF */
+        /* Layout modifications during print save state */
         @media print {
             body { background: #fff; color: #000; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
-            .submit-panel { display: none !important; }
+            .submit-panel, .instruction-box, .doc-list { display: none !important; }
             .header-logo { display: none; }
             input, select { border: none !important; border-bottom: 1px dashed #666 !important; border-radius: 0 !important; background: transparent !important; }
             .form-row { display: flex; flex-wrap: nowrap; }
@@ -385,90 +409,28 @@
             </div>
         </div>
 
-        <div class="section-title">Step 3: Federal Withholding Certificate (W-4)</div>
-        <div class="instruction-text">Complete this section to configure your federal income tax withholding parameters matching IRS guidelines.</div>
+        <div class="section-title">Step 3: Required Legal Onboarding Documents</div>
         
-        <div class="form-row">
-            <div class="form-group" style="flex: 100%;">
-                <label><strong>W4 Step 1(c): Federal Filing Marital Status</strong> <span class="required">*</span></label>
-                <div class="options-grid" style="display: flex; flex-direction: column;">
-                    <div class="option-item"><input type="radio" id="m_single" name="W4_Marital_Status" value="Single or Married filing separately" required><label for="m_single" style="font-weight:normal; margin:0;">Single or Married filing separately</label></div>
-                    <div class="option-item"><input type="radio" id="m_joint" name="W4_Marital_Status" value="Married filing jointly or Qualifying surviving spouse" required><label for="m_joint" style="font-weight:normal; margin:0;">Married filing jointly or Qualifying surviving spouse</label></div>
-                    <div class="option-item"><input type="radio" id="m_head" name="W4_Marital_Status" value="Head of household" required><label for="m_head" style="font-weight:normal; margin:0;">Head of household (Unmarried & paying over half home costs)</label></div>
-                </div>
-            </div>
+        <div class="instruction-box">
+            <strong>📢 APPLICANT INSTRUCTIONS:</strong><br>
+            Please click each link below to download the official federal and state onboarding documents. Open them on your device, fill out the required information, and email the completed forms along with this primary application packet to <strong>gustoitalianky@gmail.com</strong>.
         </div>
 
-        <div class="form-row">
-            <div class="form-group" style="flex: 100%;">
-                <div class="option-item" style="align-items: flex-start;">
-                    <input type="checkbox" id="w4_step2" name="W4_Step2_Multiple_Jobs" value="Yes" style="margin-top: 4px;">
-                    <label for="w4_step2" style="font-weight:600; margin:0;">W4 Step 2: Multiple Jobs or Spouse Works
-                        <span class="hint">Check this box if you hold more than one job at a time, or are married filing jointly and your spouse also works.</span>
-                    </label>
-                </div>
-            </div>
+        <div class="doc-list">
+            <a href="https://www.irs.gov/pub/irs-pdf/fw4.pdf" target="_blank" class="doc-link-card">
+                <span class="doc-icon">📄</span> 1. Download Federal W-4 Form (IRS Income Tax Withholding)
+            </a>
+            
+            <a href="https://revenue.ky.gov/Forms/42A820%20(K-4)%20(11-23).pdf" target="_blank" class="doc-link-card">
+                <span class="doc-icon">📄</span> 2. Download Kentucky K-4 Form (State Tax Allowance Certificate)
+            </a>
+            
+            <a href="https://www.uscis.gov/sites/default/files/document/forms/i-9.pdf" target="_blank" class="doc-link-card">
+                <span class="doc-icon">📄</span> 3. Download Federal I-9 Form (Employment Eligibility Verification)
+            </a>
         </div>
 
-        <div class="form-row">
-            <div class="form-group" style="flex: 100%;">
-                <label><strong>W4 Step 3: Claim Dependent Allowances</strong></label>
-                <span class="hint">If your total income is $200,000 or less ($400,000 or less if married filing jointly):</span>
-                <div style="margin-top:12px; font-size:10pt;">
-                    Qualifying children under 17 (× $2,000): 
-                    <input type="number" name="W4_Step3_Children_Count" class="inline-qty-input" min="0" value="0">
-                </div>
-                <div style="margin-top:12px; font-size:10pt;">
-                    Other dependents (× $500): 
-                    <input type="number" name="W4_Step3_Other_Dependents_Count" class="inline-qty-input" min="0" value="0">
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group" style="flex: 100%;">
-                <label><strong>W4 Step 4: Optional Adjustments & Custom Withholdings</strong></label>
-                <div style="margin-top:10px;">
-                    <label style="font-weight:normal; margin-bottom:4px;">(a) Other Income (not from jobs):</label>
-                    <input type="text" name="W4_Step4a_Other_Income" placeholder="$0.00">
-                </div>
-                <div style="margin-top:10px;">
-                    <label style="font-weight:normal; margin-bottom:4px;">(b) Deductions (if estimating adjustments):</label>
-                    <input type="text" name="W4_Step4b_Deductions" placeholder="$0.00">
-                </div>
-                <div style="margin-top:10px;">
-                    <label style="font-weight:bold; margin-bottom:4px;">(c) Extra Withholding per pay period:</label>
-                    <input type="text" name="W4_Step4c_Extra_Withholding" placeholder="$0.00">
-                </div>
-            </div>
-        </div>
-
-        <div class="section-title">Step 4: State Tax Withholding Exemptions</div>
-        <div class="instruction-text">Configure your personal state-level withholding exemptions declarations below.</div>
-
-        <div class="form-row">
-            <div class="form-group" style="flex: 100%;">
-                <label><strong>State Personal Exemption Selection</strong> <span class="required">*</span></label>
-                <div class="options-grid" style="flex-direction: row; gap: 15px;">
-                    <div class="option-item"><input type="radio" id="st_single" name="State_Exemption_Status" value="Single" required><label for="st_single" style="font-weight:normal; margin:0;">Single</label></div>
-                    <div class="option-item"><input type="radio" id="st_married" name="State_Exemption_Status" value="Married" required><label for="st_married" style="font-weight:normal; margin:0;">Married</label></div>
-                    <div class="option-item"><input type="radio" id="st_head" name="State_Exemption_Status" value="Head of Family" required><label for="st_head" style="font-weight:normal; margin:0;">Head of Family</label></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="state_dependents">Number of Dependents for State Allocation: <span class="required">*</span></label>
-                <input type="number" id="state_dependents" name="State_Dependents_Count" required min="0" value="0">
-            </div>
-            <div class="form-group">
-                <label for="state_extra_withholding">Additional State Withholding (Optional):</label>
-                <input type="text" id="state_extra_withholding" name="State_Extra_Withholding_Amount" placeholder="$0.00">
-            </div>
-        </div>
-
-        <div class="section-title">Step 5: Applicant Certification & Submission</div>
+        <div class="section-title">Step 4: Applicant Certification & Submission</div>
         
         <div class="legal-block">
             <div class="legal-item">
@@ -492,13 +454,13 @@
 </div>
 
 <script>
-    // Phone Format
+    // Phone Format Logic
     document.getElementById('app_phone').addEventListener('input', function (e) {
         let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
         e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? ' - ' + x[3] : '');
     });
 
-    // SSN Format
+    // SSN Format Logic
     document.getElementById('app_ssn').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
@@ -514,7 +476,7 @@
         e.target.value = newVal.substr(0, 11);
     });
 
-    // Birthdate Format
+    // Birthdate Format Logic
     document.getElementById('app_dob').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
@@ -530,7 +492,7 @@
         e.target.value = newVal.substr(0, 14);
     });
 
-    // Checkbox Validation Check
+    // Checkbox Group Validation
     function checkCheckboxesValidity() {
         const checkboxes = document.querySelectorAll('.pos-checkbox');
         let isChecked = false;
@@ -548,7 +510,7 @@
         return true;
     }
 
-    // Main Form Execution
+    // Process Final Form Download Validation
     function validateAndPrint() {
         const form = document.getElementById('onboardingApplicationForm');
         
