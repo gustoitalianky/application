@@ -84,6 +84,7 @@
             flex: 1;
             min-width: 250px;
             padding: 10px;
+            width: 100%; /* Ensures structural grouping stays bounded */
         }
 
         .w-33 { min-width: 150px; }
@@ -116,8 +117,9 @@
         input[type="date"],
         input[type="number"],
         select {
-            width: 100%;
-            max-width: 100%; /* Keeps inputs locked inside the layout borders */
+            width: 100% !important; /* Force layout compliance */
+            max-width: 100% !important;
+            display: block;
             padding: 12px 10px;
             border: 1px solid #bbb;
             border-radius: 4px;
@@ -126,6 +128,17 @@
             background-color: #fff;
             color: #000;
             transition: border-color 0.2s;
+            -webkit-appearance: none; /* Strip out custom iOS browser styling rules */
+            appearance: none;
+        }
+
+        /* Keep select dropdown arrow visible on iOS after wiping styles */
+        select {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M1 3l4 4 4-4' fill='none' stroke='%23333' stroke-width='1.5'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 12px;
+            padding-right: 30px;
         }
 
         input[type="text"]:focus,
@@ -143,6 +156,7 @@
             margin-left: 10px;
             padding: 6px;
             text-align: center;
+            -webkit-appearance: number-input; /* Retain numeric step counters */
         }
 
         /* Options Configuration */
