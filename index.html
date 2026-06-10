@@ -190,7 +190,6 @@
             align-items: flex-start;
         }
 
-        /* Responsive Action Control Area */
         .submit-panel {
             margin-top: 30px;
             padding-top: 25px;
@@ -218,7 +217,6 @@
             display: block;
         }
 
-        /* Submit Button Styling */
         .btn-submit {
             background-color: #000000;
             color: #ffffff;
@@ -230,7 +228,6 @@
             background-color: #222222;
         }
 
-        /* Save/Print PDF Button Styling */
         .btn-pdf {
             background-color: #ffffff;
             color: #000000;
@@ -245,12 +242,10 @@
             body { padding: 20px; }
             .container { padding: 40px; }
             .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            /* Align buttons side-by-side on computers/tablets */
             .submit-panel { flex-direction: row; gap: 20px; }
             .btn-action { width: auto; padding: 15px 40px; }
         }
 
-        /* Print formatting rules - Hides action control systems completely */
         @media print {
             body { background: #fff; color: #000; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
@@ -325,7 +320,7 @@
 
         <div class="form-row">
             <div class="form-group" style="flex: 100%;">
-                <label for="app_street">Street Address <span class="required">*</span></label>
+                <label Fair for="app_street">Street Address <span class="required">*</span></label>
                 <input type="text" id="app_street" name="Applicant_Street_Address" required placeholder="123 Main Street">
             </div>
         </div>
@@ -506,19 +501,19 @@
 
         <div class="submit-panel">
             <button type="submit" class="btn-action btn-submit">Submit Application</button>
-            <button type="button" class="btn-action btn-pdf" onclick="window.print();">Save / Print as PDF</button>
+            <button type="button" class="btn-action btn-pdf" onclick="validateAndPrint();">Save / Print as PDF</button>
         </div>
     </form>
 </div>
 
 <script>
-    // Phone Formatting Logic Rules
+    // Phone Formatting
     document.getElementById('app_phone').addEventListener('input', function (e) {
         let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
         e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? ' - ' + x[3] : '');
     });
 
-    // SSN Formatting Logic Rules
+    // SSN Formatting
     document.getElementById('app_ssn').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
@@ -534,7 +529,7 @@
         e.target.value = newVal.substr(0, 11);
     });
 
-    // Birthdate Formatting Logic Rules
+    // Birthdate Formatting
     document.getElementById('app_dob').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
@@ -549,6 +544,20 @@
         }
         e.target.value = newVal.substr(0, 14);
     });
+
+    // Custom Validation Engine for PDF Saving Protection
+    function validateAndPrint() {
+        const form = document.getElementById('onboardingApplicationForm');
+        
+        // Triggers the browser's built-in input requirements tracking loop
+        if (form.checkValidity()) {
+            window.print(); // Executes save only if valid
+        } else {
+            // Highlights empty elements and alerts the applicant
+            form.reportValidity();
+            alert("Please complete all required fields before saving your application as a PDF.");
+        }
+    }
 </script>
 
 </body>
