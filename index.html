@@ -28,7 +28,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        /* Top Header Styling with Responsive Logo */
         .header {
             border-bottom: 3px solid #111;
             padding-bottom: 20px;
@@ -60,7 +59,6 @@
             margin: 0;
         }
 
-        /* Section Break Headers */
         .section-title {
             font-size: 11pt;
             font-weight: bold;
@@ -73,7 +71,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Layout Grid */
         .form-row {
             display: flex;
             flex-wrap: wrap;
@@ -84,13 +81,12 @@
             flex: 1;
             min-width: 250px;
             padding: 10px;
-            width: 100%; /* Ensures structural grouping stays bounded */
+            width: 100%;
         }
 
         .w-33 { min-width: 150px; }
         .w-50 { min-width: 200px; }
 
-        /* Form Labels & Fields */
         label {
             display: block;
             font-weight: 600;
@@ -114,10 +110,9 @@
 
         input[type="text"],
         input[type="email"],
-        input[type="date"],
         input[type="number"],
         select {
-            width: 100% !important; /* Force layout compliance */
+            width: 100% !important;
             max-width: 100% !important;
             display: block;
             padding: 12px 10px;
@@ -128,11 +123,10 @@
             background-color: #fff;
             color: #000;
             transition: border-color 0.2s;
-            -webkit-appearance: none; /* Strip out custom iOS browser styling rules */
+            -webkit-appearance: none;
             appearance: none;
         }
 
-        /* Keep select dropdown arrow visible on iOS after wiping styles */
         select {
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M1 3l4 4 4-4' fill='none' stroke='%23333' stroke-width='1.5'/></svg>");
             background-repeat: no-repeat;
@@ -141,11 +135,7 @@
             padding-right: 30px;
         }
 
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="date"]:focus,
-        input[type="number"]:focus,
-        select:focus {
+        input:focus, select:focus {
             border-color: #000;
             outline: none;
         }
@@ -156,10 +146,9 @@
             margin-left: 10px;
             padding: 6px;
             text-align: center;
-            -webkit-appearance: number-input; /* Retain numeric step counters */
+            -webkit-appearance: number-input;
         }
 
-        /* Options Configuration */
         .options-grid {
             display: flex;
             flex-direction: column;
@@ -201,7 +190,6 @@
             align-items: flex-start;
         }
 
-        /* Footer Submission Controls */
         .submit-panel {
             margin-top: 30px;
             padding-top: 20px;
@@ -230,7 +218,6 @@
             background-color: #222;
         }
 
-        /* Adaptive viewports scaling elements */
         @media (min-width: 600px) {
             body { padding: 20px; }
             .container { padding: 40px; }
@@ -295,18 +282,18 @@
             </div>
             <div class="form-group w-50">
                 <label for="app_dob">Birthdate <span class="required">*</span></label>
-                <input type="date" id="app_dob" name="Applicant_Birthdate" required>
+                <input type="text" id="app_dob" name="Applicant_Birthdate" required placeholder="MM / DD / YYYY" inputmode="numeric">
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group">
                 <label for="app_phone">Phone Number <span class="required">*</span></label>
-                <input type="text" id="app_phone" name="Applicant_Phone" required placeholder="(270) 555-0199">
+                <input type="text" id="app_phone" name="Applicant_Phone" required placeholder="(270) 555 - 0199" inputmode="numeric">
             </div>
             <div class="form-group">
                 <label for="app_ssn">Social Security Number (SSN) <span class="required">*</span></label>
-                <input type="text" id="app_ssn" name="Applicant_SSN" required placeholder="000-00-0000">
+                <input type="text" id="app_ssn" name="Applicant_SSN" required placeholder="000-00-0000" inputmode="numeric">
             </div>
         </div>
 
@@ -496,5 +483,46 @@
         </div>
     </form>
 </div>
+
+<script>
+    // 1. Phone Auto-Formatter Rule: (XXX) XXX - XXXX
+    document.getElementById('app_phone').addEventListener('input', function (e) {
+        let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+        e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? ' - ' + x[3] : '');
+    });
+
+    // 2. SSN Auto-Formatter Rule: XXX-XX-XXXX
+    document.getElementById('app_ssn').addEventListener('input', function (e) {
+        let val = e.target.value.replace(/\D/g, '');
+        let newVal = '';
+        if (val.length > 4) {
+            newVal += val.substr(0, 3) + '-' + val.substr(3, 2) + '-';
+            newVal += val.substr(5, 4);
+        } else if (val.length > 3) {
+            newVal += val.substr(0, 3) + '-';
+            newVal += val.substr(3, 2);
+        } else {
+            newVal += val;
+        }
+        e.target.value = newVal.substr(0, 11);
+    });
+
+    // 3. Birthdate Auto-Formatter Rule: MM / DD / YYYY
+    document.getElementById('app_dob').addEventListener('input', function (e) {
+        let val = e.target.value.replace(/\D/g, '');
+        let newVal = '';
+        if (val.length > 4) {
+            newVal += val.substr(0, 2) + ' / ' + val.substr(2, 2) + ' / ';
+            newVal += val.substr(4, 4);
+        } else if (val.length > 2) {
+            newVal += val.substr(0, 2) + ' / ';
+            newVal += val.substr(2, 2);
+        } else {
+            newVal += val;
+        }
+        e.target.value = newVal.substr(0, 14);
+    });
+</script>
+
 </body>
 </html>
