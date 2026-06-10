@@ -715,14 +715,15 @@
         return false;
     }
 
-    // Launch email engine parameters
+    // Launch email engine parameters with fixed link connector
     function launchEmailClient() {
         const name = document.getElementById('app_name').value;
         const recipient = "gustoitalianky@gmail.com";
         const subject = encodeURIComponent("Complete Onboarding Packet - " + name);
         const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached all 4 of my completed onboarding files:\n1. Primary Application Packet\n2. Federal W-4 Form\n3. Kentucky K-4 Form\n4. Federal I-9 Form\n\nThank you!");
         
-        window.location.href = "mailto:" + recipient + "?subject=" + subject + "?body=" + body;
+        // FIXED: Changed the second '?' to an '&' so the body separates cleanly from the subject
+        window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
     }
 
     // Core verification loop
