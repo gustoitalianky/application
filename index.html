@@ -201,6 +201,39 @@
             border-radius: 0 4px 4px 0;
         }
 
+        /* Interactive Policy Viewer Layout Box */
+        .policy-viewer {
+            background-color: #fafafa;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: scroll;
+            margin-bottom: 20px;
+            font-size: 10pt;
+            color: #333;
+        }
+
+        .policy-section-title {
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 4px;
+            color: #000;
+        }
+
+        .policy-viewer ul {
+            margin: 0 0 15px 0;
+            padding-left: 20px;
+        }
+
+        .policy-viewer li {
+            margin-bottom: 6px;
+            list-style-type: square;
+        }
+
         .legal-block {
             font-size: 10pt;
             line-height: 1.5;
@@ -259,10 +292,12 @@
             .btn-action { width: auto; padding: 16px 50px; }
         }
 
+        /* Print Override Layout: Opens scrollable policy so the entire printed paper is readable */
         @media print {
             body { background: #fff; color: #000; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
             .submit-panel, .instruction-box, .doc-list { display: none !important; }
+            .policy-viewer { max-height: none !important; overflow: visible !important; border: none !important; padding: 0 !important; }
             .header-logo { display: none; }
             input, select { border: none !important; border-bottom: 1px dashed #666 !important; border-radius: 0 !important; background: transparent !important; }
             .form-row { display: flex; flex-wrap: nowrap; }
@@ -276,7 +311,7 @@
     <div class="header">
         <img src="logo.jpg" alt="Gusto Italian Logo" class="header-logo">
         <h1>Gusto Italian</h1>
-        <p>A complete job application</p>
+        <p>Digital Job Application & New-Hire Packet</p>
     </div>
 
     <form id="onboardingApplicationForm" onsubmit="event.preventDefault();">
@@ -418,17 +453,129 @@
             <a href="https://www.irs.gov/pub/irs-pdf/fw4.pdf" target="_blank" class="doc-link-card">
                 <span class="doc-icon">📄</span> 1. Download Federal W-4 Form (IRS Income Tax Withholding)
             </a>
-            
             <a href="https://revenue.ky.gov/Forms/Form%20K-4%20Withholding%20Certificate.pdf" target="_blank" class="doc-link-card">
                 <span class="doc-icon">📄</span> 2. Download Kentucky K-4 Form (State Tax Allowance Certificate)
             </a>
-            
             <a href="https://www.uscis.gov/sites/default/files/document/forms/i-9.pdf" target="_blank" class="doc-link-card">
                 <span class="doc-icon">📄</span> 3. Download Federal I-9 Form (Employment Eligibility Verification)
             </a>
         </div>
 
-        <div class="section-title">Step 4: Applicant Certification & Submission</div>
+        <div class="section-title" id="policy_anchor">Step 4: Employee Policy & Conduct Agreement</div>
+        
+        <div class="policy-viewer">
+            <div style="text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 5px;">GUSTO ITALIAN</div>
+            <div style="text-align: center; font-style: italic; margin-bottom: 15px;">Employee Policy & Conduct Agreement</div>
+            <p>By accepting employment at Gusto Italian, you agree to read, understand, and abide by the policies set out in this document. Failure to comply may result in disciplinary action up to and including termination.</p>
+            
+            <div class="policy-section-title">1. Hiring Requirements</div>
+            <ul>
+                <li>Complete and sign all employment application forms prior to your first shift.</li>
+                <li>Provide valid identification and any required employment documents.</li>
+                <li>Complete all required training before working independently.</li>
+                <li>Sign and return your contract within 48 hours of receipt.</li>
+            </ul>
+
+            <div class="policy-section-title">2. Dress Code - All Black</div>
+            <ul>
+                <li>Black polo shirt - clean, no logos.</li>
+                <li>Black trousers/pants - smart, no rips.</li>
+                <li>Black closed-toe, non-slip shoes. (No smooth/slippery-soled shoes; no flip-flops, sandals, or open-toe shoes).</li>
+                <li>Hair tied back if longer than shoulder length.</li>
+                <li>Clean, neat personal appearance at all times.</li>
+                <li>No visible piercings except small ear studs; no excessive jewellery.</li>
+                <li>No hats unless approved by management.</li>
+            </ul>
+
+            <div class="policy-section-title">3. Work Schedule & Attendance</div>
+            <ul>
+                <li>A minimum of 4 shifts per week is required.</li>
+                <li>Arrive at least 10 minutes before your scheduled shift.</li>
+                <li>You are responsible for checking your own schedule.</li>
+                <li>Shift swaps must be approved by management at least 48 hours in advance.</li>
+                <li>Time-off requests must be submitted at least 1 week in advance.</li>
+                <li>If you are unable to work, notify management at least 2 hours before your shift.</li>
+                <li><strong>3 late arrivals will result in termination - no exceptions.</strong></li>
+                <li><strong>A no-call/no-show is grounds for immediate termination.</strong></li>
+            </ul>
+
+            <div class="policy-section-title">4. Personal Phone Use</div>
+            <ul>
+                <li>Personal phones must not be used on the floor during your shift.</li>
+                <li>Phones may only be used during designated break periods or in the event of an emergency.</li>
+            </ul>
+
+            <div class="policy-section-title">5. Customer Service</div>
+            <ul>
+                <li>Treat all customers with courtesy, professionalism, and respect at all times.</li>
+                <li>Be helpful and attentive to guest needs throughout the shift.</li>
+                <li>Arguing with customers is strictly prohibited.</li>
+                <li>Disrespectful or discourteous behaviour toward guests or colleagues will not be tolerated.</li>
+            </ul>
+
+            <div class="policy-section-title">6. Workplace Conduct</div>
+            <ul>
+                <li>Follow all reasonable instructions from management.</li>
+                <li>Support and assist your colleagues during service.</li>
+                <li>Maintain a positive, professional attitude at all times.</li>
+                <li>No personal eating or drinking in guest areas while on shift; staff meals during designated break times only.</li>
+                <li>No drugs or alcohol while on duty. Reporting to work under the influence is grounds for immediate termination.</li>
+                <li>Zero tolerance for theft, fraud, unauthorised discounts, fighting, threats, harassment, or discrimination.</li>
+            </ul>
+
+            <div class="policy-section-title">7. Hygiene, Health & Safety</div>
+            <ul>
+                <li>Wash hands regularly, especially after handling food or cash.</li>
+                <li>Keep your work area clean and organised, and complete all assigned cleaning duties before leaving.</li>
+                <li>Follow all food safety and sanitation procedures at all times.</li>
+                <li>Know the location of all fire exits and the first-aid kit.</li>
+                <li>Report any illness, injury, or cuts to a manager immediately.</li>
+                <li>Do not handle food if you are suffering from a contagious illness.</li>
+            </ul>
+
+            <div class="policy-section-title">8. Cash Handling</div>
+            <ul>
+                <li>Follow all cash register and payment procedures as directed by management.</li>
+                <li>Theft, fraud, or any unauthorised discounts will result in immediate termination.</li>
+            </ul>
+
+            <div class="policy-section-title">9. Grounds for Immediate Termination</div>
+            <p>The following offences may result in immediate dismissal without prior warning:</p>
+            <ul>
+                <li>Theft, fraud, or dishonesty of any kind</li>
+                <li>Violence, threats, harassment, or discrimination</li>
+                <li>Reporting to work under the influence of drugs or alcohol</li>
+                <li>No-call/no-show</li>
+                <li>Repeated or serious insubordination</li>
+                <li>Serious misconduct toward customers or colleagues</li>
+                <li>Falsifying company records</li>
+            </ul>
+
+            <div class="policy-section-title">10. Employee Acknowledgement</div>
+            <p>I confirm that I have read and fully understood the Gusto Italian Employee Policy and agree to comply with all rules, standards, and expectations contained herein. I understand that non-compliance may result in disciplinary action, up to and including termination of employment.</p>
+        </div>
+
+        <div class="legal-block">
+            <div class="legal-item">
+                <input type="checkbox" id="policy_agree" required style="margin-top: 3px;">
+                <label for="policy_agree" style="font-weight:normal; margin-left: 10px;">
+                    <span class="required">*</span> <strong>I agree:</strong> I have read, understood, and accept the Gusto Italian Employee Policy & Conduct Agreement outlined above.
+                </label>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="policy_name">Employee Full Name <span class="required">*</span></label>
+                <input type="text" id="policy_name" required placeholder="Type Name to Sign Document">
+            </div>
+            <div class="form-group">
+                <label for="policy_date">Date Signed <span class="required">*</span></label>
+                <input type="text" id="policy_date" required placeholder="MM / DD / YYYY" class="auto-date-field">
+            </div>
+        </div>
+
+        <div class="section-title">Step 5: Applicant Certification & Submission</div>
         
         <div class="legal-block">
             <div class="legal-item">
@@ -452,13 +599,18 @@
 </div>
 
 <script>
-    // Phone Format Logic
+    // Link text input mirroring from main section down to the policy signature block
+    document.getElementById('app_name').addEventListener('input', function(e) {
+        document.getElementById('policy_name').value = e.target.value;
+    });
+
+    // Phone Format Logic Rules
     document.getElementById('app_phone').addEventListener('input', function (e) {
         let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
         e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? ' - ' + x[3] : '');
     });
 
-    // SSN Format Logic
+    // SSN Format Logic Rules
     document.getElementById('app_ssn').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
@@ -474,23 +626,27 @@
         e.target.value = newVal.substr(0, 11);
     });
 
-    // Birthdate Format Logic
-    document.getElementById('app_dob').addEventListener('input', function (e) {
-        let val = e.target.value.replace(/\D/g, '');
-        let newVal = '';
-        if (val.length > 4) {
-            newVal += val.substr(0, 2) + ' / ' + val.substr(2, 2) + ' / ';
-            newVal += val.substr(4, 4);
-        } else if (val.length > 2) {
-            newVal += val.substr(0, 2) + ' / ';
-            newVal += val.substr(2, 2);
-        } else {
-            newVal += val;
-        }
-        e.target.value = newVal.substr(0, 14);
-    });
+    // Formatting dynamic date inputs (Birthdate & Signature Date)
+    function applyDateFormat(elementId) {
+        document.getElementById(elementId).addEventListener('input', function (e) {
+            let val = e.target.value.replace(/\D/g, '');
+            let newVal = '';
+            if (val.length > 4) {
+                newVal += val.substr(0, 2) + ' / ' + val.substr(2, 2) + ' / ';
+                newVal += val.substr(4, 4);
+            } else if (val.length > 2) {
+                newVal += val.substr(0, 2) + ' / ';
+                newVal += val.substr(2, 2);
+            } else {
+                newVal += val;
+            }
+            e.target.value = newVal.substr(0, 14);
+        });
+    }
+    applyDateFormat('app_dob');
+    applyDateFormat('policy_date');
 
-    // Checkbox Group Validation
+    // Checkbox Group Validity Enforcement Verification
     function checkCheckboxesValidity() {
         const checkboxes = document.querySelectorAll('.pos-checkbox');
         let isChecked = false;
@@ -508,7 +664,7 @@
         return true;
     }
 
-    // Process Final Form Download Validation
+    // Process Final Form Download Validation Pipelines
     function validateAndPrint() {
         const form = document.getElementById('onboardingApplicationForm');
         
@@ -518,7 +674,7 @@
             }
         } else {
             form.reportValidity();
-            alert("Please complete all required fields before saving your application as a PDF.");
+            alert("Please complete all required fields and accept the handbook policies before saving your PDF.");
         }
     }
 </script>
