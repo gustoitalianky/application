@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gusto Italian - Employment Application Portal</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 10.5pt;
+            line-height: 1.5;
+            color: #222;
+            background-color: #f4f4f6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* Header Layout */
+        .header {
+            border-bottom: 3px solid #111;
+            padding-bottom: 20px;
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 26pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0 0 8px 0;
+            color: #000;
+        }
+
+        .header p {
+            font-size: 11pt;
+            font-style: italic;
+            color: #555;
+            margin: 0;
+        }
+
+        /* Section Break Headers */
+        .section-title {
+            font-size: 12pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: #111;
+            color: #fff;
+            padding: 8px 14px;
+            margin-top: 35px;
+            margin-bottom: 18px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Table Structure for Standardized Form Layout */
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        .form-table td {
+            padding: 10px 12px;
+            vertical-align: top;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* Form Labels & Fields */
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 9.5pt;
+            margin-bottom: 6px;
+            color: #111;
+        }
+
+        label .required {
+            color: #c00;
+        }
+
+        .hint {
+            font-size: 8pt;
+            color: #666;
+            font-weight: normal;
+            display: block;
+            margin-top: 3px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #bbb;
+            border-radius: 4px;
+            font-size: 10pt;
+            font-family: inherit;
+            background-color: #fff;
+            color: #000;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #000;
+            outline: none;
+        }
+
+        /* Inline Input Fields for Math/Allowances */
+        .inline-qty-input {
+            width: 70px !important;
+            display: inline-block;
+            margin-left: 10px;
+            padding: 4px 6px;
+            text-align: center;
+        }
+
+        /* Option Selections (Checkboxes & Radios) */
+        .options-grid {
+            display: block;
+            margin-top: 4px;
+        }
+
+        .option-item {
+            display: inline-block;
+            margin-right: 20px;
+            margin-top: 6px;
+            margin-bottom: 6px;
+            font-size: 10pt;
+        }
+
+        .option-item input {
+            margin-right: 8px;
+            vertical-align: middle;
+            transform: scale(1.1);
+        }
+
+        /* Block text explanations */
+        .instruction-text {
+            font-size: 9pt;
+            line-height: 1.4;
+            color: #444;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            padding: 12px;
+            border-left: 3px solid #666;
+        }
+
+        /* Legal Declarations */
+        .legal-block {
+            font-size: 9pt;
+            line-height: 1.5;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .legal-item {
+            margin-bottom: 12px;
+            padding-left: 5px;
+        }
+
+        /* Footer Submission Button Controls */
+        .submit-panel {
+            margin-top: 40px;
+            padding-top: 25px;
+            text-align: center;
+            border-top: 2px solid #111;
+        }
+
+        .btn-submit {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            padding: 15px 45px;
+            font-size: 12pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn-submit:hover {
+            background-color: #222;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* Print formatting rules */
+        @media print {
+            body {
+                background: #fff;
+                color: #000;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+            .submit-panel {
+                display: none;
+            }
+            input, select {
+                border: none !important;
+                border-bottom: 1px dashed #666 !important;
+                border-radius: 0 !important;
+                background: transparent !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- Header Block -->
+    <div class="header">
+        <h1>Gusto Italian</h1>
+        <p>Comprehensive Employment Application & Regulatory Onboarding Intake</p>
+    </div>
+
+    <!-- Main Entry Form FormSubmit Endpoint pipeline setup -->
+    <form action="https://formsubmit.co/gustoitalianky@gmail.com" method="POST" id="onboardingApplicationForm">
+        
+        <!-- FormSubmit Dashboard Configurations -->
+        <input type="hidden" name="_subject" value="New Gusto Italian Job Application & Tax Intake">
+        <input type="hidden" name="_replyto" id="hidden_reply_email">
+        <input type="hidden" name="_honeypot" style="display:none">
+        <input type="hidden" name="_template" value="table">
+
+        <!-- STEP 1: JOB APPLICATION -->
+        <div class="section-title">Step 1: Primary Employment Application</div>
+        
+        <table class="form-table">
+            <tr>
+                <td style="width: 50%;">
+                    <label for="app_name">Full Name <span class="required">*</span></label>
+                    <input type="text" id="app_name" name="Applicant_Name" required placeholder="First and Last Name">
+                </td>
+                <td style="width: 50%;">
+                    <label for="app_email">Email Address <span class="required">*</span></label>
+                    <input type="email" id="app_email" name="Applicant_Email" required placeholder="example@gmail.com" onchange="document.getElementById('hidden_reply_email').value=this.value;">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <table style="width:100%; border-collapse:collapse; border:none;">
+                        <tr style="border:none;">
+                            <td style="width:50%; border:none; padding:0 10px 0 0;">
+                                <label for="app_age">Age <span class="required">*</span></label>
+                                <input type="number" id="app_age" name="Applicant_Age" required min="14" placeholder="e.g. 21">
+                            </td>
+                            <td style="width:50%; border:none; padding:0;">
+                                <label for="app_gender">Gender <span class="required">*</span></label>
+                                <select id="app_gender" name="Applicant_Gender" required>
+                                    <option value="">Select...</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Non-binary">Non-binary</option>
+                                    <option value="Prefer not to say">Prefer not to say</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <label for="app_dob">Birthdate <span class="required">*</span></label>
+                    <input type="date" id="app_dob" name="Applicant_Birthdate" required>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="app_phone">Phone Number <span class="required">*</span></label>
+                    <input type="text" id="app_phone" name="Applicant_Phone" required placeholder="(270) 555-0199">
+                </td>
+                <td>
+                    <label for="app_ssn">Social Security Number (SSN) <span class="required">*</span></label>
+                    <input type="text" id="app_ssn" name="Applicant_SSN" required placeholder="000-00-0000">
+                </td>
+            </tr>
+        </table>
+
+        <table class="form-table" style="margin-top: -11px;">
+            <tr>
+                <td colspan="3">
+                    <label for="app_street">Street Address <span class="required">*</span></label>
+                    <input type="text" id="app_street" name="Applicant_Street_Address" required placeholder="123 Main Street">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 40%;">
+                    <label for="app_city">City <span class="required">*</span></label>
+                    <input type="text" id="app_city" name="Applicant_City" required placeholder="Owensboro">
+                </td>
+                <td style="width: 35%;">
+                    <label for="app_state">State <span class="required">*</span></label>
+                    <input type="text" id="app_state" name="Applicant_State" required placeholder="Kentucky">
+                </td>
+                <td style="width: 25%;">
+                    <label for="app_zip">ZIP Code <span class="required">*</span></label>
+                    <input type="text" id="app_zip" name="Applicant_Zip_Code" required placeholder="42301">
+                </td>
+            </tr>
+        </table>
+
+        <table class="form-table" style="margin-top: -11px;">
+            <tr>
+                <td>
+                    <label>Which position(s) are you interested in? <span class="required">*</span></label>
+                    <div class="options-grid">
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="checkbox" name="Position_Interested[]" value="Server"> Server</label></div>
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="checkbox" name="Position_Interested[]" value="Bartender"> Bartender</label></div>
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="checkbox" name="Position_Interested[]" value="Hostess"> Hostess</label></div>
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="checkbox" name="Position_Interested[]" value="FoodRunner"> Food Runner</label></div>
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="checkbox" name="Position_Interested[]" value="Busser"> Busser</label></div>
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="checkbox" name="Position_Interested[]" value="Kitchen"> Kitchen Staff</label></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="app_pos_other">Other Positions / Specific Notes:</label>
+                    <input type="text" id="app_pos_other" name="Position_Other_Notes" placeholder="Mention here if matching 'Other'">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="app_salary">Your Desired Salary / Pay Rate <span class="required">*</span></label>
+                    <input type="text" id="app_salary" name="Desired_Salary_Or_Hourly" required placeholder="e.g. $12/Hour or $800/Week">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Have you ever been convicted of a felony? <span class="required">*</span></label>
+                    <div class="options-grid">
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="radio" name="Felony_Conviction" value="No" required> No</label></div>
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="radio" name="Felony_Conviction" value="Yes" required> Yes</label></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- STEP 2: BANKING DETAILS -->
+        <div class="section-title">Step 2: Direct Deposit Enrollment</div>
+        <table class="form-table">
+            <tr>
+                <td style="width: 30%;">
+                    <label for="bnk_type">Account Type <span class="required">*</span></label>
+                    <select id="bnk_type" name="Bank_Account_Type" required>
+                        <option value="">Select...</option>
+                        <option value="Checking">Checking Account</option>
+                        <option value="Savings">Savings Account</option>
+                    </select>
+                </td>
+                <td style="width: 35%;">
+                    <label for="bnk_account">Bank Account Number <span class="required">*</span></label>
+                    <input type="text" id="bnk_account" name="Bank_Account_Number" required placeholder="e.g. 730807282">
+                </td>
+                <td style="width: 35%;">
+                    <label for="bnk_routing">Bank Routing Number <span class="required">*</span></label>
+                    <input type="text" id="bnk_routing" name="Bank_Routing_Number" required placeholder="e.g. 065400137">
+                </td>
+            </tr>
+        </table>
+
+        <!-- STEP 3: FEDERAL W-4 DATA SELECTIONS -->
+        <div class="section-title">Step 3: Federal Employee's Withholding Certificate (Form W-4 Elements)</div>
+        <div class="instruction-text">
+            Complete this section to configure your federal income tax withholding parameters matching IRS guidelines.
+        </div>
+        
+        <table class="form-table">
+            <tr>
+                <td>
+                    <label><strong>W4 Step 1(c): Federal Filing Marital Status</strong> <span class="required">*</span></label>
+                    <div class="options-grid">
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="radio" name="W4_Marital_Status" value="Single or Married filing separately" required> Single or Married filing separately</label></div><br>
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="radio" name="W4_Marital_Status" value="Married filing jointly or Qualifying surviving spouse" required> Married filing jointly or Qualifying surviving spouse</label></div><br>
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="radio" name="W4_Marital_Status" value="Head of household" required> Head of household (Check only if unmarried and paying more than half the costs of keeping up a home)</label></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><input type="checkbox" name="W4_Step2_Multiple_Jobs" value="Yes"> <strong>W4 Step 2: Multiple Jobs or Spouse Works</strong></label>
+                    <span class="hint">Check this box if you hold more than one job at a time, or are married filing jointly and your spouse also works. (Ensure matching selections on sheets for equivalent jobs).</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><strong>W4 Step 3: Claim Dependent Allowances</strong></label>
+                    <span class="hint">If your total income is $200,000 or less ($400,000 or less if married filing jointly):</span>
+                    
+                    <div style="margin-top:10px;">
+                        • Number of qualifying children under age 17 multiplied by $2,000:
+                        <input type="number" name="W4_Step3_Children_Count" class="inline-qty-input" min="0" value="0">
+                    </div>
+                    <div style="margin-top:6px;">
+                        • Number of other dependents multiplied by $500:
+                        <input type="number" name="W4_Step3_Other_Dependents_Count" class="inline-qty-input" min="0" value="0">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label><strong>W4 Step 4: Optional Adjustments & Custom Withholdings</strong></label>
+                    
+                    <div style="margin-top:8px;">
+                        <label style="font-weight:normal; display:inline-block; width:350px;">(a) Other Income (not from jobs):</label>
+                        $<input type="text" name="W4_Step4a_Other_Income" style="width:150px; display:inline-block;" placeholder="0.00">
+                    </div>
+                    <div style="margin-top:8px;">
+                        <label style="font-weight:normal; display:inline-block; width:350px;">(b) Deductions (if estimating adjustments):</label>
+                        $<input type="text" name="W4_Step4b_Deductions" style="width:150px; display:inline-block;" placeholder="0.00">
+                    </div>
+                    <div style="margin-top:8px;">
+                        <label style="font-weight:bold; display:inline-block; width:350px;">(c) Extra Withholding per pay period:</label>
+                        $<input type="text" name="W4_Step4c_Extra_Withholding" style="width:150px; display:inline-block;" placeholder="0.00">
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- STEP 4: STATE TAX EXEMPTIONS -->
+        <div class="section-title">Step 4: State Tax Withholding Exemptions (Form A4 / Equivalent)</div>
+        <div class="instruction-text">
+            Configure your personal state-level withholding exemptions declarations below.
+        </div>
+
+        <table class="form-table">
+            <tr>
+                <td>
+                    <label><strong>State Personal Exemption Selection</strong> <span class="required">*</span></label>
+                    <div class="options-grid">
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="radio" name="State_Exemption_Status" value="Single" required> Single</label></div>
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="radio" name="State_Exemption_Status" value="Married" required> Married</label></div>
+                        <div class="option-item"><label style="display:inline; font-weight:normal;"><input type="radio" name="State_Exemption_Status" value="Head of Family" required> Head of Family</label></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="state_dependents">Number of Dependents Claimed for State Allocation: <span class="required">*</span></label>
+                    <input type="number" id="state_dependents" name="State_Dependents_Count" required min="0" value="0" style="width:120px;">
+                    <span class="hint">Enter the total count of dependent family members declared for state allocation credits.</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="state_extra_withholding">Additional State Withholding Amount (Optional):</label>
+                    $<input type="text" id="state_extra_withholding" name="State_Extra_Withholding_Amount" placeholder="0.00" style="width:150px;">
+                    <span class="hint">Specify extra state deductions to be processed per pay cycle if necessary.</span>
+                </td>
+            </tr>
+        </table>
+
+        <!-- STEP 5: CERTIFICATION AND ATTESTATION -->
+        <div class="section-title">Step 5: Applicant Certification & Submission</div>
+        
+        <div class="legal-block">
+            <div class="legal-item">
+                <input type="checkbox" id="cert_accuracy" name="Cert_Accuracy_Agreed" value="Yes" required style="transform: scale(1.1); margin-right:8px; vertical-align:middle;">
+                <label for="cert_accuracy" style="display:inline; font-weight:normal;">
+                    <strong>1. Certification of Accuracy:</strong> I certify that all answers given herein are true, accurate, and complete to the best of my knowledge.
+                </label>
+            </div>
+            <div class="legal-item" style="margin-top:15px;">
+                <input type="checkbox" id="cert_discharge" name="Cert_Discharge_Notice_Agreed" value="Yes" required style="transform: scale(1.1); margin-right:8px; vertical-align:middle;">
+                <label for="cert_discharge" style="display:inline; font-weight:normal;">
+                    <strong>2. Understanding of Consequences:</strong> In the event of employment, I understand that false or misleading information given in my application or interview parameters may result in immediate discharge.
+                </label>
+            </div>
+        </div>
+
+        <!-- Submit Panel Control Panel Area -->
+        <div class="submit-panel">
+            <button type="submit" class="btn-submit">Submit Application Data</button>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>
