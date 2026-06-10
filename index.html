@@ -266,14 +266,14 @@
         <p>Comprehensive Employment Application & Regulatory Onboarding Intake</p>
     </div>
 
-    <form action="https://formsubmit.co/gustoitalianky@gmail.com" method="POST" id="onboardingApplicationForm">
+    <form action="https://formsubmit.co/gustoitalianky@gmail.com" method="POST" id="onboardingApplicationForm" onsubmit="return validateFormSelection(event);">
         
         <input type="hidden" name="_subject" value="New Gusto Italian Job Application & Tax Intake">
         <input type="hidden" name="_replyto" id="hidden_reply_email">
         <input type="hidden" name="_honeypot" style="display:none">
         <input type="hidden" name="_template" value="table">
 
-        <div class="section-title">Step 1: Primary Employment Application</div>
+        <div class="section-title" id="positions_anchor">Step 1: Primary Employment Application</div>
         
         <div class="form-row">
             <div class="form-group">
@@ -320,7 +320,7 @@
 
         <div class="form-row">
             <div class="form-group" style="flex: 100%;">
-                <label Fair for="app_street">Street Address <span class="required">*</span></label>
+                <label for="app_street">Street Address <span class="required">*</span></label>
                 <input type="text" id="app_street" name="Applicant_Street_Address" required placeholder="123 Main Street">
             </div>
         </div>
@@ -342,14 +342,14 @@
 
         <div class="form-row">
             <div class="form-group" style="flex: 100%;">
-                <label>Which position(s) are you interested in? <span class="required">*</span></label>
+                <label id="checkbox_group_label">Which position(s) are you interested in? <span class="required">*</span></label>
                 <div class="options-grid">
-                    <div class="option-item"><input type="checkbox" id="pos_server" name="Position_Interested[]" value="Server"><label for="pos_server" style="font-weight:normal; margin:0;">Server</label></div>
-                    <div class="option-item"><input type="checkbox" id="pos_bartender" name="Position_Interested[]" value="Bartender"><label for="pos_bartender" style="font-weight:normal; margin:0;">Bartender</label></div>
-                    <div class="option-item"><input type="checkbox" id="pos_hostess" name="Position_Interested[]" value="Hostess"><label for="pos_hostess" style="font-weight:normal; margin:0;">Hostess</label></div>
-                    <div class="option-item"><input type="checkbox" id="pos_runner" name="Position_Interested[]" value="FoodRunner"><label for="pos_runner" style="font-weight:normal; margin:0;">Food Runner</label></div>
-                    <div class="option-item"><input type="checkbox" id="pos_busser" name="Position_Interested[]" value="Busser"><label for="pos_busser" style="font-weight:normal; margin:0;">Busser</label></div>
-                    <div class="option-item"><input type="checkbox" id="pos_kitchen" name="Position_Interested[]" value="Kitchen"><label for="pos_kitchen" style="font-weight:normal; margin:0;">Kitchen Staff</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_server" name="Position_Interested[]" value="Server"><label for="pos_server" style="font-weight:normal; margin:0;">Server</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_bartender" name="Position_Interested[]" value="Bartender"><label for="pos_bartender" style="font-weight:normal; margin:0;">Bartender</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_hostess" name="Position_Interested[]" value="Hostess"><label for="pos_hostess" style="font-weight:normal; margin:0;">Hostess</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_runner" name="Position_Interested[]" value="FoodRunner"><label for="pos_runner" style="font-weight:normal; margin:0;">Food Runner</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_busser" name="Position_Interested[]" value="Busser"><label for="pos_busser" style="font-weight:normal; margin:0;">Busser</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_kitchen" name="Position_Interested[]" value="Kitchen"><label for="pos_kitchen" style="font-weight:normal; margin:0;">Kitchen Staff</label></div>
                 </div>
             </div>
         </div>
@@ -507,13 +507,13 @@
 </div>
 
 <script>
-    // Phone Formatting
+    // Phone Formatting Logic
     document.getElementById('app_phone').addEventListener('input', function (e) {
         let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
         e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? ' - ' + x[3] : '');
     });
 
-    // SSN Formatting
+    // SSN Formatting Logic
     document.getElementById('app_ssn').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
@@ -529,7 +529,7 @@
         e.target.value = newVal.substr(0, 11);
     });
 
-    // Birthdate Formatting
+    // Birthdate Formatting Logic
     document.getElementById('app_dob').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
@@ -545,15 +545,46 @@
         e.target.value = newVal.substr(0, 14);
     });
 
-    // Custom Validation Engine for PDF Saving Protection
+    // Checkbox selection group validation function
+    function checkCheckboxesValidity() {
+        const checkboxes = document.querySelectorAll('.pos-checkbox');
+        let isChecked = false;
+        for (let i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                isChecked = true;
+                break;
+            }
+        }
+        
+        const groupLabel = document.getElementById('checkbox_group_label');
+        if (!isChecked) {
+            // Focus on positions section and alert applicant
+            document.getElementById('positions_anchor').scrollIntoView({ behavior: 'smooth' });
+            alert("Please select at least one position you are interested in.");
+            return false;
+        }
+        return true;
+    }
+
+    // Process submission verification pipeline
+    function validateFormSelection(event) {
+        if (!checkCheckboxesValidity()) {
+            event.preventDefault();
+            return false;
+        }
+        return true;
+    }
+
+    // Process PDF generation verification pipeline
     function validateAndPrint() {
         const form = document.getElementById('onboardingApplicationForm');
         
-        // Triggers the browser's built-in input requirements tracking loop
+        // Check text fields first, then check checkboxes group layout
         if (form.checkValidity()) {
-            window.print(); // Executes save only if valid
+            if (checkCheckboxesValidity()) {
+                window.print();
+            }
         } else {
-            // Highlights empty elements and alerts the applicant
             form.reportValidity();
             alert("Please complete all required fields before saving your application as a PDF.");
         }
