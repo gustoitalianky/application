@@ -99,18 +99,8 @@
             color: #c00;
         }
 
-        .hint {
-            font-size: 8.5pt;
-            color: #666;
-            font-weight: normal;
-            display: block;
-            margin-top: 4px;
-            line-height: 1.3;
-        }
-
         input[type="text"],
         input[type="email"],
-        input[type="number"],
         select {
             width: 100% !important;
             max-width: 100% !important;
@@ -301,27 +291,44 @@
             background-color: #222222;
         }
 
+        /* Custom US Print Date Footer Tracker Layout Element */
+        .print-footer-info {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-size: 8.5pt;
+            color: #666;
+            font-family: sans-serif;
+            justify-content: space-between;
+        }
+
         @media (min-width: 600px) {
             body { padding: 20px; }
             .container { padding: 40px; }
             .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         }
 
-        /* Clean Print Settings - Beautiful high-contrast field background tinting */
         @media print {
-            body { background: #fff; color: #000; padding: 0; }
-            .container { box-shadow: none; padding: 0; max-width: 100%; }
+            /* Force Apple devices to remove default header/footers entirely so our custom US date layout shows */
+            @page { margin: 0.6in 0.4in 0.6in 0.4in; }
             
-            /* Securely keep instruction components off the management PDF folder copies */
+            body { background: #fff; color: #000; padding: 0; }
+            .container { box-shadow: none; padding: 0; max-width: 100%; border: none !important; }
+            
             .submit-panel, .instruction-box, .doc-list, #successDashboard { display: none !important; }
             .header-logo { display: none; }
             
-            /* FIXED: Applies a sharp background highlight block exactly matching your image structure layout style */
+            .print-footer-info {
+                display: flex !important;
+            }
+            
             input, select { 
                 border: none !important; 
                 border-bottom: 2px solid #222 !important; 
                 border-radius: 4px 4px 0 0 !important; 
-                background-color: #f1f3f5 !important; /* Premium clean grey highlight fill block */
+                background-color: #f1f3f5 !important; 
                 color: #000 !important;
                 font-weight: 800 !important; 
                 font-size: 11.5pt !important;
@@ -362,7 +369,7 @@
         <div class="form-row">
             <div class="form-group w-33">
                 <label for="app_age">Age <span class="required">*</span></label>
-                <input type="number" id="app_age" name="Applicant_Age" required min="14" placeholder="e.g. 21">
+                <input type="text" id="app_age" name="Applicant_Age" required placeholder="e.g. 25" inputmode="numeric">
             </div>
             <div class="form-group w-33">
                 <label for="app_gender">Gender <span class="required">*</span></label>
@@ -409,7 +416,7 @@
             </div>
             <div class="form-group w-33">
                 <label for="app_zip">ZIP Code <span class="required">*</span></label>
-                <input type="text" id="app_zip" name="Applicant_Zip_Code" required placeholder="42301">
+                <input type="text" id="app_zip" name="Applicant_Zip_Code" required placeholder="42301" inputmode="numeric">
             </div>
         </div>
 
@@ -465,11 +472,11 @@
             </div>
             <div class="form-group">
                 <label for="bnk_account">Bank Account Number <span class="required">*</span></label>
-                <input type="text" id="bnk_account" name="Bank_Account_Number" required placeholder="e.g. 730807282">
+                <input type="text" id="bnk_account" name="Bank_Account_Number" required placeholder="Account Number (Numbers only)" inputmode="numeric">
             </div>
             <div class="form-group">
                 <label for="bnk_routing">Bank Routing Number <span class="required">*</span></label>
-                <input type="text" id="bnk_routing" name="Bank_Routing_Number" required placeholder="e.g. 065400137">
+                <input type="text" id="bnk_routing" name="Bank_Routing_Number" required placeholder="9-Digit Routing Number" inputmode="numeric">
             </div>
         </div>
 
@@ -497,93 +504,93 @@
         <div class="policy-viewer">
             <div style="text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 5px;">GUSTO ITALIAN</div>
             <div style="text-align: center; font-style: italic; margin-bottom: 15px;">Employee Policy & Conduct Agreement</div>
-            <p>By accepting employment at Gusto Italian, you agree to read, understand, and abide by the policies set out in this document. Failure to comply may result in disciplinary action up to and including termination.</p>
+            <p>By accepting employment at Gusto Italian, you agree to read, understand, and abide by the policies set out in this document[cite: 3]. Failure to comply may result in disciplinary action up to and including termination[cite: 4].</p>
             
-            <div class="policy-section-title">1. Hiring Requirements</div>
+            <div class="policy-section-title">1. Hiring Requirements [cite: 5]</div>
             <ul>
-                <li>Complete and sign all employment application forms prior to your first shift.</li>
-                <li>Provide valid identification and any required employment documents.</li>
-                <li>Complete all required training before working independently.</li>
-                <li>Sign and return your contract within 48 hours of receipt.</li>
+                <li>Complete and sign all employment application forms prior to your first shift[cite: 6].</li>
+                <li>Provide valid identification and any required employment documents[cite: 7].</li>
+                <li>Complete all required training before working independently[cite: 8].</li>
+                <li>Sign and return your contract within 48 hours of receipt[cite: 9].</li>
             </ul>
 
-            <div class="policy-section-title">2. Dress Code - All Black</div>
+            <div class="policy-section-title">2. Dress Code - All Black [cite: 10]</div>
             <ul>
-                <li>Black polo shirt - clean, no logos.</li>
-                <li>Black trousers/pants - smart, no rips.</li>
-                <li>Black closed-toe, non-slip shoes. (No smooth/slippery-soled shoes; no flip-flops, sandals, or open-toe shoes).</li>
-                <li>Hair tied back if longer than shoulder length.</li>
-                <li>Clean, neat personal appearance at all times.</li>
-                <li>No visible piercings except small ear studs; no excessive jewellery.</li>
-                <li>No hats unless approved by management.</li>
+                <li>Black polo shirt - clean, no logos[cite: 17, 18].</li>
+                <li>Black trousers/pants - smart, no rips[cite: 19].</li>
+                <li>Black closed-toe, non-slip shoes. (No smooth/slippery-soled shoes; no flip-flops, sandals, or open-toe shoes) [cite: 20, 23, 24].</li>
+                <li>Hair tied back if longer than shoulder length[cite: 21].</li>
+                <li>Clean, neat personal appearance at all times[cite: 22].</li>
+                <li>No visible piercings except small ear studs; no excessive jewellery[cite: 27].</li>
+                <li>No hats unless approved by management[cite: 28].</li>
             </ul>
 
-            <div class="policy-section-title">3. Work Schedule & Attendance</div>
+            <div class="policy-section-title">3. Work Schedule & Attendance [cite: 29]</div>
             <ul>
-                <li>A minimum of 4 shifts per week is required.</li>
-                <li>Arrive at least 10 minutes before your scheduled shift.</li>
-                <li>You are responsible for checking your own schedule.</li>
-                <li>Shift swaps must be approved by management at least 48 hours in advance.</li>
-                <li>Time-off requests must be submitted at least 1 week in advance.</li>
-                <li>If you are unable to work, notify management at least 2 hours before your shift.</li>
-                <li><strong>3 late arrivals will result in termination - no exceptions.</strong></li>
-                <li><strong>A no-call/no-show is grounds for immediate termination.</strong></li>
+                <li>A minimum of 4 shifts per week is required[cite: 30].</li>
+                <li>Arrive at least 10 minutes before your scheduled shift[cite: 31].</li>
+                <li>You are responsible for checking your own schedule[cite: 35].</li>
+                <li>Shift swaps must be approved by management at least 48 hours in advance[cite: 36].</li>
+                <li>Time-off requests must be submitted at least 1 week in advance[cite: 37].</li>
+                <li>If you are unable to work, notify management at least 2 hours before your shift[cite: 38].</li>
+                <li><strong>3 late arrivals will result in termination - no exceptions[cite: 39].</strong></li>
+                <li><strong>A no-call/no-show is grounds for immediate termination[cite: 40].</strong></li>
             </ul>
 
-            <div class="policy-section-title">4. Personal Phone Use</div>
+            <div class="policy-section-title">4. Personal Phone Use [cite: 41]</div>
             <ul>
-                <li>Personal phones must not be used on the floor during your shift.</li>
-                <li>Phones may only be used during designated break periods or in the event of an emergency.</li>
+                <li>Personal phones must not be used on the floor during your shift[cite: 43].</li>
+                <li>Phones may only be used during designated break periods or in the event of an emergency[cite: 44].</li>
             </ul>
 
-            <div class="policy-section-title">5. Customer Service</div>
+            <div class="policy-section-title">5. Customer Service [cite: 45]</div>
             <ul>
-                <li>Treat all customers with courtesy, professionalism, and respect at all times.</li>
-                <li>Be helpful and attentive to guest needs throughout the shift.</li>
-                <li>Arguing with customers is strictly prohibited.</li>
-                <li>Disrespectful or discourteous behaviour toward guests or colleagues will not be tolerated.</li>
+                <li>Treat all customers with courtesy, professionalism, and respect at all times[cite: 46].</li>
+                <li>Be helpful and attentive to guest needs throughout the shift[cite: 47].</li>
+                <li>Arguing with customers is strictly prohibited[cite: 47].</li>
+                <li>Disrespectful or discourteous behaviour toward guests or colleagues will not be tolerated[cite: 48].</li>
             </ul>
 
-            <div class="policy-section-title">6. Workplace Conduct</div>
+            <div class="policy-section-title">6. Workplace Conduct [cite: 49]</div>
             <ul>
-                <li>Follow all reasonable instructions from management.</li>
-                <li>Support and assist your colleagues during service.</li>
-                <li>Maintain a positive, professional attitude at all times.</li>
-                <li>No personal eating or drinking in guest areas while on shift; staff meals during designated break times only.</li>
-                <li>No drugs or alcohol while on duty. Reporting to work under the influence is grounds for immediate termination.</li>
-                <li>Zero tolerance for theft, fraud, unauthorised discounts, fighting, threats, harassment, or discrimination.</li>
+                <li>Follow all reasonable instructions from management[cite: 50].</li>
+                <li>Support and assist your colleagues during service[cite: 52].</li>
+                <li>Maintain a positive, professional attitude at all times[cite: 53].</li>
+                <li>No personal eating or drinking in guest areas while on shift; staff meals during designated break times only[cite: 54].</li>
+                <li>No drugs or alcohol while on duty. Reporting to work under the influence is grounds for immediate termination[cite: 57].</li>
+                <li>Zero tolerance for theft, fraud, unauthorised discounts, fighting, threats, harassment, or discrimination[cite: 58].</li>
             </ul>
 
-            <div class="policy-section-title">7. Hygiene, Health & Safety</div>
+            <div class="policy-section-title">7. Hygiene, Health & Safety [cite: 59]</div>
             <ul>
-                <li>Wash hands regularly, especially after handling food or cash.</li>
-                <li>Keep your work area clean and organised, and complete all assigned cleaning duties before leaving.</li>
-                <li>Follow all food safety and sanitation procedures at all times.</li>
-                <li>Know the location of all fire exits and the first-aid kit.</li>
-                <li>Report any illness, injury, or cuts to a manager immediately.</li>
-                <li>Do not handle food if you are suffering from a contagious illness.</li>
+                <li>Wash hands regularly, especially after handling food or cash[cite: 60].</li>
+                <li>Keep your work area clean and organised, and complete all assigned cleaning duties before leaving[cite: 63].</li>
+                <li>Follow all food safety and sanitation procedures at all times[cite: 64].</li>
+                <li>Know the location of all fire exits and the first-aid kit[cite: 65].</li>
+                <li>Report any illness, injury, or cuts to a manager immediately[cite: 67].</li>
+                <li>Do not handle food if you are suffering from a contagious illness[cite: 68].</li>
             </ul>
 
-            <div class="policy-section-title">8. Cash Handling</div>
+            <div class="policy-section-title">8. Cash Handling [cite: 69]</div>
             <ul>
-                <li>Follow all cash register and payment procedures as directed by management.</li>
-                <li>Theft, fraud, or any unauthorised discounts will result in immediate termination.</li>
+                <li>Follow all cash register and payment procedures as directed by management[cite: 72].</li>
+                <li>Theft, fraud, or any unauthorised discounts will result in immediate termination[cite: 73].</li>
             </ul>
 
-            <div class="policy-section-title">9. Grounds for Immediate Termination</div>
-            <p>The following offences may result in immediate dismissal without prior warning:</p>
+            <div class="policy-section-title">9. Grounds for Immediate Termination [cite: 74]</div>
+            <p>The following offences may result in immediate dismissal without prior warning[cite: 75]:</p>
             <ul>
-                <li>Theft, fraud, or dishonesty of any kind</li>
-                <li>Violence, threats, harassment, or discrimination</li>
-                <li>Reporting to work under the influence of drugs or alcohol</li>
-                <li>No-call/no-show</li>
-                <li>Repeated or serious insubordination</li>
-                <li>Serious misconduct toward customers or colleagues</li>
-                <li>Falsifying company records</li>
+                <li>Theft, fraud, or dishonesty of any kind [cite: 79]</li>
+                <li>Violence, threats, harassment, or discrimination [cite: 80]</li>
+                <li>Reporting to work under the influence of drugs or alcohol [cite: 81]</li>
+                <li>No-call/no-show [cite: 82]</li>
+                <li>Repeated or serious insubordination [cite: 83]</li>
+                <li>Serious misconduct toward customers or colleagues [cite: 85]</li>
+                <li>Falsifying company records [cite: 86]</li>
             </ul>
 
-            <div class="policy-section-title">10. Employee Acknowledgement</div>
-            <p>I confirm that I have read and fully understood the Gusto Italian Employee Policy and agree to comply with all rules, standards, and expectations contained herein. I understand that non-compliance may result in disciplinary action, up to and including termination of employment.</p>
+            <div class="policy-section-title">10. Employee Acknowledgement [cite: 87]</div>
+            <p>I confirm that I have read and fully understood the Gusto Italian Employee Policy and agree to comply with all rules, standards, and expectations contained herein[cite: 88]. I understand that non-compliance may result in disciplinary action, up to and including termination of employment[cite: 89].</p>
         </div>
 
         <div class="legal-block">
@@ -602,7 +609,7 @@
             </div>
             <div class="form-group">
                 <label for="policy_date">Date Signed <span class="required">*</span></label>
-                <input type="text" id="policy_date" required placeholder="MM / DD / YYYY" class="auto-date-field">
+                <input type="text" id="policy_date" required placeholder="MM / DD / YYYY" class="auto-date-field" inputmode="numeric">
             </div>
         </div>
 
@@ -644,9 +651,32 @@
             <button type="button" id="emailLauncherBtn" class="btn-action btn-submit" style="margin-top:10px; background-color:#2b8a3e; color:#fff; border:none; max-width:290px; padding:12px;" onclick="launchEmailClient();">Open Email Application</button>
         </div>
     </form>
+    
+    <div class="print-footer-info" id="customPrintFooter">
+        <span id="footerUrl">https://gustoitalianky.github.io/application/</span>
+        <span id="footerDateTime"></span>
+    </div>
 </div>
 
 <script>
+    // Build and inject custom absolute US date stamp footer parameters
+    function setupCustomPrintFooter() {
+        const now = new Date();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const yyyy = now.getFullYear();
+        
+        let hours = now.getHours();
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // convert 0 to 12
+        
+        // Formats cleanly to US layout (e.g., 06/10/2026, 2:44 PM)
+        document.getElementById('footerDateTime').innerText = `${mm}/${dd}/${yyyy}, ${hours}:${mins} ${ampm}`;
+    }
+    setupCustomPrintFooter();
+
     // Link text input mirroring
     document.getElementById('app_name').addEventListener('input', function(e) {
         document.getElementById('policy_name').value = e.target.value;
@@ -663,13 +693,29 @@
         }
     }
 
-    // Phone Format
+    // Numbers Only Enforcement Core Handler
+    function enforceNumbersOnly(elementId) {
+        document.getElementById(elementId).addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+    }
+    enforceNumbersOnly('app_age');
+    enforceNumbersOnly('bnk_account');
+    enforceNumbersOnly('bnk_routing');
+
+    // ZIP Code Format (Max 5 digits restriction)
+    document.getElementById('app_zip').addEventListener('input', function(e) {
+        let val = e.target.value.replace(/\D/g, '');
+        e.target.value = val.substr(0, 5);
+    });
+
+    // Phone Format Rules
     document.getElementById('app_phone').addEventListener('input', function (e) {
         let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
         e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? ' - ' + x[3] : '');
     });
 
-    // SSN Format
+    // SSN Format Rules
     document.getElementById('app_ssn').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
@@ -685,7 +731,7 @@
         e.target.value = newVal.substr(0, 11);
     });
 
-    // Date Format
+    // Clean Date Input formatting strategy rules (MM / DD / YYYY)
     function applyDateFormat(elementId) {
         document.getElementById(elementId).addEventListener('input', function (e) {
             let val = e.target.value.replace(/\D/g, '');
@@ -705,7 +751,7 @@
     applyDateFormat('app_dob');
     applyDateFormat('policy_date');
 
-    // Checkbox input verification
+    // Checkbox input validation
     function checkCheckboxesValidity() {
         const checkboxes = document.querySelectorAll('.pos-checkbox:not(#pos_other)');
         const otherCheckbox = document.getElementById('pos_other');
@@ -731,7 +777,7 @@
         return false;
     }
 
-    // Fixed email client mailto link string builder
+    // Send email package values pipeline configuration
     function launchEmailClient() {
         const name = document.getElementById('app_name').value;
         const recipient = "gustoitalianky@gmail.com";
@@ -741,7 +787,7 @@
         window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
     }
 
-    // Core verification loop
+    // Print script handling sequence
     function validateAndPrint() {
         const form = document.getElementById('onboardingApplicationForm');
         
