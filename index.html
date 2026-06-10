@@ -28,12 +28,20 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        /* Header Layout */
+        /* Top Header Styling with Responsive Logo */
         .header {
             border-bottom: 3px solid #111;
-            padding-bottom: 15px;
+            padding-bottom: 20px;
             margin-bottom: 25px;
             text-align: center;
+        }
+
+        .header-logo {
+            max-width: 130px;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .header h1 {
@@ -65,7 +73,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Modern Mobile-First Layout Framework (Replaced old rigid tables) */
+        /* Layout Grid */
         .form-row {
             display: flex;
             flex-wrap: wrap;
@@ -74,11 +82,10 @@
 
         .form-group {
             flex: 1;
-            min-width: 250px; /* Forces boxes to stack on small screens */
+            min-width: 250px;
             padding: 10px;
         }
 
-        /* Custom small widths for layout variables */
         .w-33 { min-width: 150px; }
         .w-50 { min-width: 200px; }
 
@@ -110,10 +117,11 @@
         input[type="number"],
         select {
             width: 100%;
-            padding: 12px 10px; /* Slightly taller for easy mobile tapping */
+            max-width: 100%; /* Keeps inputs locked inside the layout borders */
+            padding: 12px 10px;
             border: 1px solid #bbb;
             border-radius: 4px;
-            font-size: 11pt; /* Prevents iOS zoom-on-focus issues */
+            font-size: 11pt;
             font-family: inherit;
             background-color: #fff;
             color: #000;
@@ -137,7 +145,7 @@
             text-align: center;
         }
 
-        /* Option Selections (Checkboxes & Radios) */
+        /* Options Configuration */
         .options-grid {
             display: flex;
             flex-direction: column;
@@ -179,7 +187,7 @@
             align-items: flex-start;
         }
 
-        /* Footer Submission Button Controls */
+        /* Footer Submission Controls */
         .submit-panel {
             margin-top: 30px;
             padding-top: 20px;
@@ -208,7 +216,7 @@
             background-color: #222;
         }
 
-        /* Desktop Media Query to style wide screens nicely */
+        /* Adaptive viewports scaling elements */
         @media (min-width: 600px) {
             body { padding: 20px; }
             .container { padding: 40px; }
@@ -216,11 +224,11 @@
             .btn-submit { width: auto; padding: 15px 45px; }
         }
 
-        /* Print formatting rules */
         @media print {
             body { background: #fff; color: #000; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
             .submit-panel { display: none; }
+            .header-logo { display: none; }
             input, select { border: none !important; border-bottom: 1px dashed #666 !important; border-radius: 0 !important; background: transparent !important; }
             .form-row { display: flex; flex-wrap: nowrap; }
         }
@@ -231,6 +239,7 @@
 <div class="container">
     
     <div class="header">
+        <img src="logo.jpg" alt="Gusto Italian Logo" class="header-logo">
         <h1>Gusto Italian</h1>
         <p>Comprehensive Employment Application & Regulatory Onboarding Intake</p>
     </div>
