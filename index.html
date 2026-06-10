@@ -201,23 +201,22 @@
             border-radius: 0 4px 4px 0;
         }
 
+        /* Green Success Instructions Area Box */
         #successDashboard {
             display: none;
             background-color: #ebfbee;
             border: 2px solid #40c057;
-            border-radius: 6px;
-            padding: 20px;
+            border-radius: 8px;
+            padding: 22px;
             margin-top: 25px;
-            color: #2b8a3e;
+            color: #1e6b2e;
         }
 
         .success-title {
-            font-size: 13pt;
+            font-size: 14pt;
             font-weight: bold;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-bottom: 12px;
+            color: #2b8a3e;
         }
 
         .policy-viewer {
@@ -481,9 +480,9 @@
         <div class="section-title" id="policy_anchor">Step 4: Employee Policy & Conduct Agreement</div>
         
         <div class="policy-viewer">
-            <div style="text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 5px;">GUSTO ITALIAN [cite: 1]</div>
-            <div style="text-align: center; font-style: italic; margin-bottom: 15px;">Employee Policy & Conduct Agreement [cite: 2]</div>
-            <p>By accepting employment at Gusto Italian, you agree to read, understand, and abide by the policies set out in this document. Failure to comply may result in disciplinary action up to and including termination. [cite: 3, 4]</p>
+            <div style="text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 5px;">GUSTO ITALIAN</div>
+            <div style="text-align: center; font-style: italic; margin-bottom: 15px;">Employee Policy & Conduct Agreement [cite: 1, 2]</div>
+            <p>By accepting employment at Gusto Italian, you agree to read, understand, and abide by the policies set out in this document. [cite: 3] Failure to comply may result in disciplinary action up to and including termination. [cite: 4]</p>
             
             <div class="policy-section-title">1. Hiring Requirements [cite: 5]</div>
             <ul>
@@ -497,7 +496,7 @@
             <ul>
                 <li>Black polo shirt - clean, no logos. [cite: 17, 18]</li>
                 <li>Black trousers/pants - smart, no rips. [cite: 19]</li>
-                <li>Black closed-toe, non-slip shoes. (No smooth/slippery-soled shoes; no flip-flops, sandals, or open-toe shoes). [cite: 20, 23, 24]</li>
+                <li>Black closed-toe, non-slip shoes. [cite: 20] (No smooth/slippery-soled shoes [cite: 24]; no flip-flops, sandals, or open-toe shoes [cite: 23]).</li>
                 <li>Hair tied back if longer than shoulder length. [cite: 21]</li>
                 <li>Clean, neat personal appearance at all times. [cite: 22]</li>
                 <li>No visible piercings except small ear studs; no excessive jewellery. [cite: 27]</li>
@@ -512,8 +511,8 @@
                 <li>Shift swaps must be approved by management at least 48 hours in advance. [cite: 36]</li>
                 <li>Time-off requests must be submitted at least 1 week in advance. [cite: 37]</li>
                 <li>If you are unable to work, notify management at least 2 hours before your shift. [cite: 38]</li>
-                <li><strong>3 late arrivals will result in termination - no exceptions. [cite: 39]</strong></li>
-                <li><strong>A no-call/no-show is grounds for immediate termination. [cite: 40]</strong></li>
+                <li><strong>3 late arrivals will result in termination - no exceptions.</strong> [cite: 39]</li>
+                <li><strong>A no-call/no-show is grounds for immediate termination.</strong> [cite: 40]</li>
             </ul>
 
             <div class="policy-section-title">4. Personal Phone Use [cite: 41]</div>
@@ -536,7 +535,7 @@
                 <li>Support and assist your colleagues during service. [cite: 52]</li>
                 <li>Maintain a positive, professional attitude at all times. [cite: 53]</li>
                 <li>No personal eating or drinking in guest areas while on shift; staff meals during designated break times only. [cite: 54]</li>
-                <li>No drugs or alcohol while on duty. Reporting to work under the influence is grounds for immediate termination. [cite: 57]</li>
+                <li>No drugs or alcohol while on duty. [cite: 57] Reporting to work under the influence is grounds for immediate termination. [cite: 57]</li>
                 <li>Zero tolerance for theft, fraud, unauthorised discounts, fighting, threats, harassment, or discrimination. [cite: 58]</li>
             </ul>
 
@@ -569,7 +568,7 @@
             </ul>
 
             <div class="policy-section-title">10. Employee Acknowledgement [cite: 87]</div>
-            <p>I confirm that I have read and fully understood the Gusto Italian Employee Policy and agree to comply with all rules, standards, and expectations contained herein. I understand that non-compliance may result in disciplinary action, up to and including termination of employment. [cite: 88, 89]</p>
+            <p>I confirm that I have read and fully understood the Gusto Italian Employee Policy and agree to comply with all rules, standards, and expectations contained herein. [cite: 88] I understand that non-compliance may result in disciplinary action, up to and including termination of employment. [cite: 89]</p>
         </div>
 
         <div class="legal-block">
@@ -611,20 +610,22 @@
 
         <div class="submit-panel">
             <p style="font-size: 10.5pt; color: #d63031; margin: 0 0 10px 0; font-weight: bold; text-align: center; line-height: 1.4; max-width: 600px;">
-                📲 iPhone Users: After clicking below, tap the middle [Share] button at the top/bottom of your options panel, then select the [Print] icon to compile and select "Save to Files" to download your PDF packet.
+                📲 iPhone Users: After clicking below, tap the [Share] button at the top/bottom of your options panel to download into your device.
             </p>
             <button type="button" class="btn-action btn-pdf" onclick="validateAndPrint();">Save Application / Create PDF</button>
         </div>
 
         <div id="successDashboard">
-            <div class="success-title">🎉 Application Package Generated Successfully!</div>
-            <p style="margin: 0 0 10px 0; font-size: 10.5pt;">Your primary form has been prepared. Please follow these final instructions to submit your full onboarding packet:</p>
-            <ol style="margin: 0; padding-left: 20px; font-size: 10pt; line-height: 1.6;">
-                <li>Make sure the generated PDF file saved completely onto your phone or computer.</li>
-                <li>Open up your personal email account (Gmail, Yahoo, iCloud, etc.).</li>
-                <li>Click the button below to draft a message, attach your application PDF along with your completed tax forms from Step 3, and hit send!</li>
+            <div class="success-title">🎉 Congratulations! Form Filled Out Successfully.</div>
+            <p style="margin: 0 0 12px 0; font-size: 10.5pt; line-height: 1.5;">
+                Your primary application packet has been generated. Please follow these final instructions to submit your data:
+            </p>
+            <ol style="margin: 0; padding-left: 20px; font-size: 10.5pt; line-height: 1.6;">
+                <li>Ensure this application PDF downloaded completely into your device storage files.</li>
+                <li>Make sure you have downloaded and filled out the other required onboarding documents from Step 3 (<strong>Federal W-4</strong>, <strong>Kentucky K-4</strong>, and <strong>Federal I-9 Form</strong>).</li>
+                <li>Click the green button below to open your mail engine, attach <strong>all 4 documents</strong> together, and send them directly to us!</li>
             </ol>
-            <button type="button" id="emailLauncherBtn" class="btn-action btn-submit" style="margin-top:15px; background-color:#2b8a3e; color:#fff; border:none; max-width:280px; padding:12px;" onclick="launchEmailClient();">Open Email Application</button>
+            <button type="button" id="emailLauncherBtn" class="btn-action btn-submit" style="margin-top:18px; background-color:#2b8a3e; color:#fff; border:none; max-width:290px; padding:12px;" onclick="launchEmailClient();">Open Email Application</button>
         </div>
     </form>
 </div>
@@ -718,8 +719,8 @@
     function launchEmailClient() {
         const name = document.getElementById('app_name').value;
         const recipient = "gustoitalianky@gmail.com";
-        const subject = encodeURIComponent("Job Application Packet - " + name);
-        const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached my generated Gusto Italian job application packet, along with my completed tax onboarding documents.\n\nThank you!");
+        const subject = encodeURIComponent("Complete Onboarding Packet - " + name);
+        const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached all 4 of my completed onboarding files:\n1. Primary Application Packet\n2. Federal W-4 Form\n3. Kentucky K-4 Form\n4. Federal I-9 Form\n\nThank you!");
         
         window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
     }
