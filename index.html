@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gusto Italian - Employment Application Portal</title>
+    <title>Gusto Italian - Onboarding Portal</title>
     <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { box-sizing: border-box; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -19,323 +17,107 @@
             padding: 10px;
         }
 
+        /* Sleek Executive Lock Screen Wrapper */
+        #lockScreen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #161616 0%, #090909 100%);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 9999; padding: 20px; text-align: center; color: #fff;
+        }
+
+        .lock-box {
+            max-width: 400px; width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 35px 25px; border-radius: 12px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .lock-box h2 { font-size: 1.6rem; letter-spacing: 2px; margin: 0 0 10px 0; text-transform: uppercase; }
+        .lock-box p { color: #aaa; font-size: 9.5pt; margin: 0 0 25px 0; line-height: 1.4; }
+        .lock-box .notice-mgr { font-weight: 700; color: #fcc419; margin-top: 15px; display: block; font-size: 10pt; }
+        
+        .lock-input {
+            width: 100%; padding: 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.4); color: #fff; font-size: 11pt; text-align: center; margin-bottom: 15px;
+        }
+        .lock-input:focus { outline: none; border-color: #fff; }
+
+        .lock-btn {
+            width: 100%; padding: 14px; border-radius: 50px; border: none;
+            background: #fff; color: #000; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; cursor: pointer; transition: all 0.2s;
+        }
+        .lock-btn:hover { background: #e0e0e0; }
+
+        /* Onboarding Application Content Container */
         .container {
-            max-width: 850px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            display: none; /* Hidden strictly until valid passcode validation handshake */
+            max-width: 850px; margin: 0 auto; background-color: #ffffff; padding: 20px;
+            border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        .header {
-            border-bottom: 3px solid #111;
-            padding-bottom: 20px;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .header-logo {
-            max-width: 130px;
-            height: auto;
-            border-radius: 50%;
-            margin-bottom: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .header h1 {
-            font-size: 24pt;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 0 0 8px 0;
-            color: #000;
-        }
-
-        .header p {
-            font-size: 10.5pt;
-            font-style: italic;
-            color: #555;
-            margin: 0;
-        }
-
-        .section-title {
-            font-size: 11pt;
-            font-weight: bold;
-            text-transform: uppercase;
-            background-color: #111;
-            color: #fff;
-            padding: 10px;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            letter-spacing: 0.5px;
-        }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -10px;
-        }
-
-        .form-group {
-            flex: 1;
-            min-width: 250px;
-            padding: 10px;
-            width: 100%;
-        }
-
+        .header { border-bottom: 3px solid #111; padding-bottom: 20px; margin-bottom: 25px; text-align: center; }
+        .header-logo { max-width: 130px; height: auto; border-radius: 50%; margin-bottom: 12px; }
+        .header h1 { font-size: 24pt; font-weight: bold; text-transform: uppercase; margin: 0; color: #000; }
+        .header p { font-size: 10.5pt; font-style: italic; color: #555; margin: 5px 0 0 0; }
+        .section-title { font-size: 11pt; font-weight: bold; text-transform: uppercase; background-color: #111; color: #fff; padding: 10px; margin-top: 30px; margin-bottom: 15px; }
+        .form-row { display: flex; flex-wrap: wrap; margin: 0 -10px; }
+        .form-group { flex: 1; min-width: 250px; padding: 10px; width: 100%; }
         .w-33 { min-width: 150px; }
         .w-50 { min-width: 200px; }
+        label { display: block; font-weight: 600; font-size: 10pt; margin-bottom: 6px; color: #111; }
+        .required { color: #c00; }
 
-        label {
-            display: block;
-            font-weight: 600;
-            font-size: 10pt;
-            margin-bottom: 6px;
-            color: #111;
+        input[type="text"], input[type="email"], input[type="number"], select {
+            width: 100% !important; max-width: 100% !important; display: block; padding: 12px 10px;
+            border: 1px solid #bbb; border-radius: 4px; font-size: 11pt; font-family: inherit; background-color: #fff; color: #000;
         }
 
-        label .required {
-            color: #c00;
-        }
-
-        input[type="text"],
-        input[type="email"],
-        select {
-            width: 100% !important;
-            max-width: 100% !important;
-            display: block;
-            padding: 12px 10px;
-            border: 1px solid #bbb;
-            border-radius: 4px;
-            font-size: 11pt;
-            font-family: inherit;
-            background-color: #fff;
-            color: #000;
-            transition: border-color 0.2s;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-
-        select {
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M1 3l4 4 4-4' fill='none' stroke='%23333' stroke-width='1.5'/></svg>");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 12px;
-            padding-right: 30px;
-        }
-
-        input:focus, select:focus {
-            border-color: #000;
-            outline: none;
-        }
-
-        .options-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 5px 0;
-        }
-
-        .option-item {
-            display: flex;
-            align-items: center;
-            font-size: 10.5pt;
-        }
-
-        .option-item input {
-            margin-right: 10px;
-            transform: scale(1.2);
-        }
-
-        .doc-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin: 15px 0;
-        }
-
+        .options-grid { display: flex; flex-direction: column; gap: 10px; padding: 5px 0; }
+        .option-item { display: flex; align-items: center; font-size: 10.5pt; }
+        .option-item input { margin-right: 10px; transform: scale(1.2); }
+        .doc-list { display: flex; flex-direction: column; gap: 12px; margin: 15px 0; }
+        
         .doc-link-card {
-            display: flex;
-            align-items: center;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: 14px 18px;
-            text-decoration: none;
-            color: #111;
-            font-weight: 600;
-            font-size: 10.5pt;
-            transition: all 0.2s ease;
+            display: flex; align-items: center; background-color: #f8f9fa; border: 1px solid #ddd;
+            border-radius: 6px; padding: 14px 18px; text-decoration: none; color: #111; font-weight: 600; font-size: 10.5pt;
         }
-
-        .doc-link-card:hover {
-            background-color: #f1f3f5;
-            border-color: #111;
-            transform: translateX(3px);
-        }
-
-        .doc-icon {
-            font-size: 14pt;
-            margin-right: 12px;
-        }
-
-        .instruction-box {
-            background-color: #fff9db;
-            border-left: 4px solid #fcc419;
-            padding: 15px;
-            font-size: 10pt;
-            color: #444;
-            line-height: 1.5;
-            margin-bottom: 20px;
-            border-radius: 0 4px 4px 0;
-        }
-
+        .doc-icon { font-size: 14pt; margin-right: 12px; }
+        
+        .instruction-box { background-color: #fff9db; border-left: 4px solid #fcc419; padding: 15px; font-size: 10pt; color: #444; margin-bottom: 20px; }
+        
         #successDashboard {
-            display: none;
-            background-color: #ebfbee;
-            border: 2px solid #40c057;
-            border-radius: 8px;
-            padding: 22px;
-            margin-top: 25px;
-            color: #1e6b2e;
+            display: none; background-color: #ebfbee; border: 2px solid #40c057;
+            border-radius: 8px; padding: 22px; margin-top: 25px; color: #1e6b2e;
         }
+        .success-title { font-size: 14pt; font-weight: bold; margin-bottom: 12px; color: #2b8a3e; }
 
-        .success-title {
-            font-size: 14pt;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: #2b8a3e;
-        }
+        .policy-viewer { background-color: #fafafa; border: 1px solid #ccc; border-radius: 6px; padding: 20px; max-height: 400px; overflow-y: scroll; margin-bottom: 20px; font-size: 10pt; color: #333; }
+        .policy-section-title { font-weight: 700; text-transform: uppercase; margin-top: 15px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 4px; color: #000; }
+        .policy-viewer ul { margin: 0 0 15px 0; padding-left: 20px; }
+        .policy-viewer li { margin-bottom: 6px; list-style-type: square; }
+        .legal-block { font-size: 10pt; line-height: 1.5; color: #333; margin-bottom: 20px; }
+        .legal-item { margin-bottom: 15px; display: flex; align-items: flex-start; }
+        
+        .submit-panel { margin-top: 30px; padding-top: 25px; border-top: 2px solid #111; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+        
+        .btn-action { width: 100%; max-width: 360px; padding: 18px; font-size: 12pt; font-weight: bold; text-transform: uppercase; border-radius: 4px; cursor: pointer; text-align: center; text-decoration: none; display: block; }
+        .btn-pdf { background-color: #000000; color: #ffffff; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        .policy-viewer {
-            background-color: #fafafa;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            padding: 20px;
-            max-height: 400px;
-            overflow-y: scroll;
-            margin-bottom: 20px;
-            font-size: 10pt;
-            color: #333;
-        }
+        @media (min-width: 600px) { body { padding: 20px; } .container { padding: 40px; } .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
-        .policy-section-title {
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-top: 15px;
-            margin-bottom: 8px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 4px;
-            color: #000;
-        }
-
-        .policy-viewer ul {
-            margin: 0 0 15px 0;
-            padding-left: 20px;
-        }
-
-        .policy-viewer li {
-            margin-bottom: 6px;
-            list-style-type: square;
-        }
-
-        .legal-block {
-            font-size: 10pt;
-            line-height: 1.5;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .legal-item {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .submit-panel {
-            margin-top: 30px;
-            padding-top: 25px;
-            border-top: 2px solid #111;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-action {
-            width: 100%;
-            max-width: 360px;
-            padding: 18px;
-            font-size: 12pt;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-            text-decoration: none;
-            display: block;
-        }
-
-        .btn-pdf {
-            background-color: #000000;
-            color: #ffffff;
-            border: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        .btn-pdf:hover {
-            background-color: #222222;
-        }
-
-        @media (min-width: 600px) {
-            body { padding: 20px; }
-            .container { padding: 40px; }
-            .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        }
-
-        /* Fixed Print Settings to keep Step 3 visible on the PDF */
         @media print {
             body { background: #fff; color: #000; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
-            
-            /* FIXED: Removed .instruction-box and .doc-list so Step 3 prints cleanly */
-            .submit-panel, #successDashboard { display: none !important; }
+            .submit-panel, .instruction-box, .doc-list, #successDashboard { display: none !important; }
             .header-logo { display: none; }
-            
-            /* Background layout fill highlights */
             input, select { 
-                border: none !important; 
-                border-bottom: 2px solid #222 !important; 
-                border-radius: 4px 4px 0 0 !important; 
-                background-color: #f1f3f5 !important; 
-                color: #000 !important;
-                font-weight: 800 !important; 
-                font-size: 11.5pt !important;
-                padding: 6px 10px !important;
-                -webkit-print-color-adjust: exact !important; 
-                print-color-adjust: exact !important;
+                border: none !important; border-bottom: 2px solid #222 !important; border-radius: 4px 4px 0 0 !important; 
+                background-color: #f1f3f5 !important; color: #000 !important; font-weight: 800 !important; font-size: 11.5pt !important; padding: 6px 10px !important;
+                -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
             }
-            
-            /* FIXED: Forces background colors to display inside Step 3 instruction box on paper */
-            .instruction-box {
-                background-color: #fff9db !important;
-                border-left: 4px solid #fcc419 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-            
-            /* FIXED: Formats Step 3 card links layout neatly on printed paper sheets */
-            .doc-link-card {
-                background-color: #f8f9fa !important;
-                border: 1px solid #ddd !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
             .form-row { display: flex; flex-wrap: nowrap; }
             .policy-viewer { max-height: none !important; overflow: visible !important; border: none !important; padding: 0 !important; }
         }
@@ -343,16 +125,23 @@
 </head>
 <body>
 
-<div class="container">
-    
+<div id="lockScreen">
+    <div class="lock-box">
+        <h2>Gusto Italian</h2>
+        <p>Onboarding Portal Locked</p>
+        <input type="password" id="passcodeInput" class="lock-input" placeholder="Enter Secure Passcode">
+        <button type="button" class="lock-btn" onclick="checkPasscode();">Unlock Portal</button>
+        <span class="notice-mgr">⚠️ Please contact manager for passcode</span>
+    </div>
+</div>
+
+<div class="container" id="mainPortalContent">
     <div class="header">
-        <img src="logo.jpg" alt="Gusto Italian Logo" class="header-logo">
         <h1>Gusto Italian</h1>
         <p>Digital Job Application & New-Hire Packet</p>
     </div>
 
     <form id="onboardingApplicationForm" onsubmit="event.preventDefault();">
-
         <div class="section-title" id="positions_anchor">Step 1: Primary Employment Application</div>
         
         <div class="form-row">
@@ -369,7 +158,7 @@
         <div class="form-row">
             <div class="form-group w-33">
                 <label for="app_age">Age <span class="required">*</span></label>
-                <input type="text" id="app_age" name="Applicant_Age" required placeholder="e.g. 25" inputmode="numeric">
+                <input type="number" id="app_age" name="Applicant_Age" required min="14" placeholder="e.g. 21">
             </div>
             <div class="form-group w-33">
                 <label for="app_gender">Gender <span class="required">*</span></label>
@@ -416,7 +205,7 @@
             </div>
             <div class="form-group w-33">
                 <label for="app_zip">ZIP Code <span class="required">*</span></label>
-                <input type="text" id="app_zip" name="Applicant_Zip_Code" required placeholder="42301" inputmode="numeric">
+                <input type="text" id="app_zip" name="Applicant_Zip_Code" required placeholder="42301">
             </div>
         </div>
 
@@ -424,28 +213,20 @@
             <div class="form-group" style="flex: 100%;">
                 <label id="checkbox_group_label">Which position(s) are you interested in? <span class="required">*</span></label>
                 <div class="options-grid">
-                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_server" name="Position_Interested[]" value="Server"><label for="pos_server" style="font-weight:normal; margin:0;">Server</label></div>
-                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_bartender" name="Position_Interested[]" value="Bartender"><label for="pos_bartender" style="font-weight:normal; margin:0;">Bartender</label></div>
-                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_hostess" name="Position_Interested[]" value="Hostess"><label for="pos_hostess" style="font-weight:normal; margin:0;">Hostess</label></div>
-                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_runner" name="Position_Interested[]" value="FoodRunner"><label for="pos_runner" style="font-weight:normal; margin:0;">Food Runner</label></div>
-                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_busser" name="Position_Interested[]" value="Busser"><label for="pos_busser" style="font-weight:normal; margin:0;">Busser</label></div>
-                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_kitchen" name="Position_Interested[]" value="Kitchen"><label for="pos_kitchen" style="font-weight:normal; margin:0;">Kitchen Staff</label></div>
-                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_other" name="Position_Interested[]" value="Other" onchange="toggleOtherFocus(this);"><label for="pos_other" style="font-weight:bold; margin:0; color:#c00;">Other (Specify below)</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_server" value="Server"><label for="pos_server">Server</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_bartender" value="Bartender"><label for="pos_bartender">Bartender</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_hostess" value="Hostess"><label for="pos_hostess">Hostess</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_runner" value="FoodRunner"><label for="pos_runner">Food Runner</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_busser" value="Busser"><label for="pos_busser">Busser</label></div>
+                    <div class="option-item"><input type="checkbox" class="pos-checkbox" id="pos_kitchen" value="Kitchen"><label for="pos_kitchen">Kitchen Staff</label></div>
                 </div>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-group" style="flex: 100%;">
-                <label for="app_pos_other">Other Positions / Specific Notes:</label>
-                <input type="text" id="app_pos_other" name="Position_Other_Notes" placeholder="Type position details here if you selected 'Other'">
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group" style="flex: 100%;">
                 <label for="app_salary">Your Desired Salary / Pay Rate <span class="required">*</span></label>
-                <input type="text" id="app_salary" name="Desired_Salary_Or_Hourly" required placeholder="e.g. $12/Hour or $800/Week">
+                <input type="text" id="app_salary" name="Desired_Salary_Or_Hourly" required placeholder="e.g. $12/Hour">
             </div>
         </div>
 
@@ -453,14 +234,13 @@
             <div class="form-group" style="flex: 100%;">
                 <label>Have you ever been convicted of a felony? <span class="required">*</span></label>
                 <div class="options-grid" style="flex-direction: row; gap: 20px;">
-                    <div class="option-item"><input type="radio" id="fel_no" name="Felony_Conviction" value="No" required><label for="fel_no" style="font-weight:normal; margin:0;">No</label></div>
-                    <div class="option-item"><input type="radio" id="fel_yes" name="Felony_Conviction" value="Yes" required><label for="fel_yes" style="font-weight:normal; margin:0;">Yes</label></div>
+                    <div class="option-item"><input type="radio" id="fel_no" name="Felony_Conviction" value="No" required><label for="fel_no">No</label></div>
+                    <div class="option-item"><input type="radio" id="fel_yes" name="Felony_Conviction" value="Yes" required><label for="fel_yes">Yes</label></div>
                 </div>
             </div>
         </div>
 
         <div class="section-title">Step 2: Direct Deposit Enrollment</div>
-        
         <div class="form-row">
             <div class="form-group">
                 <label for="bnk_type">Account Type <span class="required">*</span></label>
@@ -472,35 +252,30 @@
             </div>
             <div class="form-group">
                 <label for="bnk_account">Bank Account Number <span class="required">*</span></label>
-                <input type="text" id="bnk_account" name="Bank_Account_Number" required placeholder="Account Number (Numbers only)" inputmode="numeric">
+                <input type="text" id="bnk_account" name="Bank_Account_Number" required placeholder="e.g. 730807282">
             </div>
             <div class="form-group">
                 <label for="bnk_routing">Bank Routing Number <span class="required">*</span></label>
-                <input type="text" id="bnk_routing" name="Bank_Routing_Number" required placeholder="9-Digit Routing Number" inputmode="numeric">
+                <input type="text" id="bnk_routing" name="Bank_Routing_Number" required placeholder="e.g. 065400137">
             </div>
         </div>
 
         <div class="section-title">Step 3: Required Legal Onboarding Documents</div>
-        
         <div class="instruction-box">
             <strong>📢 APPLICANT INSTRUCTIONS:</strong><br>
-            Please click each link below to download the official federal and state onboarding documents. Open them on your device, fill out the required information, and email the completed forms along with this primary application packet to <strong>gustoitalianky@gmail.com</strong>.
+            Please click each link below to download the official federal onboarding documents. Open them on your device, fill out the required info, and email them along with this application PDF to <strong>gustoitalianky@gmail.com</strong>.
         </div>
 
         <div class="doc-list">
             <a href="https://www.irs.gov/pub/irs-pdf/fw4.pdf" target="_blank" class="doc-link-card">
                 <span class="doc-icon">📄</span> 1. Download Federal W-4 Form (IRS Income Tax Withholding)
             </a>
-            <a href="https://revenue.ky.gov/Forms/Form%20K-4%20Withholding%20Certificate.pdf" target="_blank" class="doc-link-card">
-                <span class="doc-icon">📄</span> 2. Download Kentucky K-4 Form (State Tax Allowance Certificate)
-            </a>
             <a href="https://www.uscis.gov/sites/default/files/document/forms/i-9.pdf" target="_blank" class="doc-link-card">
-                <span class="doc-icon">📄</span> 3. Download Federal I-9 Form (Employment Eligibility Verification)
+                <span class="doc-icon">📄</span> 2. Download Federal I-9 Form (Employment Eligibility Verification)
             </a>
         </div>
 
         <div class="section-title" id="policy_anchor">Step 4: Employee Policy & Conduct Agreement</div>
-        
         <div class="policy-viewer">
             <div style="text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 5px;">GUSTO ITALIAN</div>
             <div style="text-align: center; font-style: italic; margin-bottom: 15px;">Employee Policy & Conduct Agreement</div>
@@ -518,45 +293,32 @@
             <ul>
                 <li>Black polo shirt - clean, no logos.</li>
                 <li>Black trousers/pants - smart, no rips.</li>
-                <li>Black closed-toe, non-slip shoes. (No smooth/slippery-soled shoes; no flip-flops, sandals, or open-toe shoes).</li>
+                <li>Black closed-toe, non-slip shoes.</li>
                 <li>Hair tied back if longer than shoulder length.</li>
                 <li>Clean, neat personal appearance at all times.</li>
-                <li>No visible piercings except small ear studs; no excessive jewellery.</li>
-                <li>No hats unless approved by management.</li>
             </ul>
 
             <div class="policy-section-title">3. Work Schedule & Attendance</div>
             <ul>
                 <li>A minimum of 4 shifts per week is required.</li>
                 <li>Arrive at least 10 minutes before your scheduled shift.</li>
-                <li>You are responsible for checking your own schedule.</li>
-                <li>Shift swaps must be approved by management at least 48 hours in advance.</li>
-                <li>Time-off requests must be submitted at least 1 week in advance.</li>
-                <li>If you are unable to work, notify management at least 2 hours before your shift.</li>
-                <li><strong>3 late arrivals will result in termination - no exceptions.</strong></li>
-                <li><strong>A no-call/no-show is grounds for immediate termination.</strong></li>
+                <li>3 late arrivals will result in termination - no exceptions.</li>
+                <li>A no-call/no-show is grounds for immediate termination.</li>
             </ul>
 
             <div class="policy-section-title">4. Personal Phone Use</div>
             <ul>
                 <li>Personal phones must not be used on the floor during your shift.</li>
-                <li>Phones may only be used during designated break periods or in the event of an emergency.</li>
             </ul>
 
             <div class="policy-section-title">5. Customer Service</div>
             <ul>
                 <li>Treat all customers with courtesy, professionalism, and respect at all times.</li>
-                <li>Be helpful and attentive to guest needs throughout the shift.</li>
-                <li>Arguing with customers is strictly prohibited.</li>
-                <li>Disrespectful or discourteous behaviour toward guests or colleagues will not be tolerated.</li>
             </ul>
 
             <div class="policy-section-title">6. Workplace Conduct</div>
             <ul>
                 <li>Follow all reasonable instructions from management.</li>
-                <li>Support and assist your colleagues during service.</li>
-                <li>Maintain a positive, professional attitude at all times.</li>
-                <li>No personal eating or drinking in guest areas while on shift; staff meals during designated break times only.</li>
                 <li>No drugs or alcohol while on duty. Reporting to work under the influence is grounds for immediate termination.</li>
                 <li>Zero tolerance for theft, fraud, unauthorised discounts, fighting, threats, harassment, or discrimination.</li>
             </ul>
@@ -564,33 +326,24 @@
             <div class="policy-section-title">7. Hygiene, Health & Safety</div>
             <ul>
                 <li>Wash hands regularly, especially after handling food or cash.</li>
-                <li>Keep your work area clean and organised, and complete all assigned cleaning duties before leaving.</li>
-                <li>Follow all food safety and sanitation procedures at all times.</li>
-                <li>Know the location of all fire exits and the first-aid kit.</li>
-                <li>Report any illness, injury, or cuts to a manager immediately.</li>
-                <li>Do not handle food if you are suffering from a contagious illness.</li>
+                <li>Keep your work area clean and organised before leaving.</li>
             </ul>
 
             <div class="policy-section-title">8. Cash Handling</div>
             <ul>
                 <li>Follow all cash register and payment procedures as directed by management.</li>
-                <li>Theft, fraud, or any unauthorised discounts will result in immediate termination.</li>
             </ul>
 
             <div class="policy-section-title">9. Grounds for Immediate Termination</div>
-            <p>The following offences may result in immediate dismissal without prior warning:</p>
             <ul>
                 <li>Theft, fraud, or dishonesty of any kind</li>
                 <li>Violence, threats, harassment, or discrimination</li>
                 <li>Reporting to work under the influence of drugs or alcohol</li>
                 <li>No-call/no-show</li>
-                <li>Repeated or serious insubordination</li>
-                <li>Serious misconduct toward customers or colleagues</li>
-                <li>Falsifying company records</li>
             </ul>
 
             <div class="policy-section-title">10. Employee Acknowledgement</div>
-            <p>I confirm that I have read and fully understood the Gusto Italian Employee Policy and agree to comply with all rules, standards, and expectations contained herein. I understand that non-compliance may result in disciplinary action, up to and including termination of employment.</p>
+            <p>I confirm that I have read and fully understood the Gusto Italian Employee Policy and agree to comply with all rules standards, and expectations contained herein.</p>
         </div>
 
         <div class="legal-block">
@@ -605,34 +358,33 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="policy_name">Employee Full Name <span class="required">*</span></label>
-                <input type="text" id="policy_name" required placeholder="Type Name to Sign Document">
+                <input type="text" id="policy_name" required placeholder="Type Name to Sign">
             </div>
             <div class="form-group">
                 <label for="policy_date">Date Signed <span class="required">*</span></label>
-                <input type="text" id="policy_date" required placeholder="MM / DD / YYYY" class="auto-date-field" inputmode="numeric">
+                <input type="text" id="policy_date" required placeholder="MM / DD / YYYY" class="auto-date-field">
             </div>
         </div>
 
         <div class="section-title">Step 5: Applicant Certification & Submission</div>
-        
         <div class="legal-block">
             <div class="legal-item">
-                <input type="checkbox" id="cert_accuracy" name="Cert_Accuracy_Agreed" value="Yes" required style="margin-top: 3px;">
+                <input type="checkbox" id="cert_accuracy" required style="margin-top: 3px;">
                 <label for="cert_accuracy" style="font-weight:normal; margin-left: 10px;">
-                    <strong>1. Certification of Accuracy:</strong> I certify that all answers given herein are true, accurate, and complete to the best of my knowledge.
+                    <strong>1. Certification of Accuracy:</strong> I certify that all answers given herein are true, accurate, and complete.
                 </label>
             </div>
             <div class="legal-item">
-                <input type="checkbox" id="cert_discharge" name="Cert_Discharge_Notice_Agreed" value="Yes" required style="margin-top: 3px;">
+                <input type="checkbox" id="cert_discharge" required style="margin-top: 3px;">
                 <label for="cert_discharge" style="font-weight:normal; margin-left: 10px;">
-                    <strong>2. Understanding of Consequences:</strong> In the event of employment, I understand that false or misleading information given in my application may result in immediate discharge.
+                    <strong>2. Understanding of Consequences:</strong> I understand that false or misleading information given may result in immediate discharge.
                 </label>
             </div>
         </div>
 
         <div class="submit-panel">
-            <p style="font-size: 10.5pt; color: #d63031; margin: 0 0 10px 0; font-weight: bold; text-align: center; line-height: 1.4; max-width: 600px;">
-                📲 iPhone Users: After clicking below, tap the [Share] button at the top/bottom of your options panel to download into your device.
+            <p style="font-size: 10.5pt; color: #d63031; margin: 0 0 10px 0; font-weight: bold; text-align: center;">
+                📲 iPhone Users: After clicking below, tap the [Share] button to download the PDF document.
             </p>
             <button type="button" class="btn-action btn-pdf" onclick="validateAndPrint();">Save Application / Create PDF</button>
         </div>
@@ -644,142 +396,106 @@
             </p>
             <ol style="margin: 0; padding-left: 20px; font-size: 10.5pt; line-height: 1.6;">
                 <li>Ensure this application PDF downloaded completely into your device storage files.</li>
-                <li>Make sure you have downloaded and filled out the other required onboarding documents from Step 3 (<strong>Federal W-4</strong>, <strong>Kentucky K-4</strong>, and <strong>Federal I-9 Form</strong>).</li>
-                <li>Email all 4 completed documents together directly to us at: <strong style="color: #000; background-color: #fff9db; padding: 2px 6px; border-radius: 4px; font-size: 11pt; border: 1px dashed #2b8a3e;">gustoitalianky@gmail.com</strong></li>
+                <li>Make sure you have downloaded and filled out the other required onboarding documents from Step 3 (<strong>Federal W-4</strong> and <strong>Federal I-9 Form</strong>).</li>
+                <li>Email all 3 completed documents together directly to us at: <strong style="color: #000; background-color: #fff9db; padding: 2px 6px; border-radius: 4px; font-size: 11pt;">gustoitalianky@gmail.com</strong></li>
             </ol>
-            <p style="margin: 15px 0 0 0; font-size: 10pt; font-style: italic;">Tip: You can use the quick button below to open your device's mail application automatically!</p>
-            <button type="button" id="emailLauncherBtn" class="btn-action btn-submit" style="margin-top:10px; background-color:#2b8a3e; color:#fff; border:none; max-width:290px; padding:12px;" onclick="launchEmailClient();">Open Email Application</button>
+            <button type="button" id="emailLauncherBtn" class="btn-action btn-submit" style="margin-top:15px; background-color:#2b8a3e; color:#fff; border:none; max-width:290px; padding:12px;" onclick="launchEmailClient();">Open Email Application</button>
         </div>
     </form>
 </div>
 
 <script>
-    // Link text input mirroring
+    var globalMasterPasscode = "";
+
+    // Secure live runtime deployment retrieval handshake
+    function fetchActivePasscode() {
+        const scriptUrl = "https://script.google.com/macros/s/AKfycby6hppmeY7izHjz5MYBPFSE6fcMrLqO0mEmkgO2H6gRXwHftCrteMfQwzEsFHVsGcW8Cg/exec";
+        fetch(scriptUrl)
+        .then(res => res.json())
+        .then(data => { if(data.passcode) globalMasterPasscode = data.passcode.trim(); })
+        .catch(err => console.log("System locked. Waiting verification path sync."));
+    }
+    fetchActivePasscode();
+
+    function checkPasscode() {
+        const input = document.getElementById('passcodeInput').value.trim();
+        if(globalMasterPasscode === "") {
+            alert("Connection synchronization pending. Please wait 2 seconds and tap Unlock again.");
+            return;
+        }
+        if(input === globalMasterPasscode) {
+            document.getElementById('lockScreen').style.display = 'none';
+            document.getElementById('mainPortalContent').style.display = 'block';
+        } else {
+            alert("Invalid passcode sequence. Access denied. Please contact restaurant manager.");
+        }
+    }
+
+    // Capture "Enter" key press on the passcode input field
+    document.getElementById('passcodeInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') { checkPasscode(); }
+    });
+
     document.getElementById('app_name').addEventListener('input', function(e) {
         document.getElementById('policy_name').value = e.target.value;
     });
 
-    // Auto-focus helper
-    function toggleOtherFocus(checkbox) {
-        const notesBox = document.getElementById('app_pos_other');
-        if (checkbox.checked) {
-            notesBox.focus();
-            notesBox.style.borderColor = '#c00';
-        } else {
-            notesBox.style.borderColor = '#bbb';
-        }
-    }
-
-    // Numbers Only Enforcement Core Handler
-    function enforceNumbersOnly(elementId) {
-        document.getElementById(elementId).addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/\D/g, '');
-        });
-    }
-    enforceNumbersOnly('app_age');
-    enforceNumbersOnly('bnk_account');
-    enforceNumbersOnly('bnk_routing');
-
-    // ZIP Code Format (Max 5 digits restriction)
-    document.getElementById('app_zip').addEventListener('input', function(e) {
-        let val = e.target.value.replace(/\D/g, '');
-        e.target.value = val.substr(0, 5);
-    });
-
-    // Phone Format Rules
     document.getElementById('app_phone').addEventListener('input', function (e) {
         let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
         e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? ' - ' + x[3] : '');
     });
 
-    // SSN Format Rules
     document.getElementById('app_ssn').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
-        if (val.length > 4) {
-            newVal += val.substr(0, 3) + '-' + val.substr(3, 2) + '-';
-            newVal += val.substr(5, 4);
-        } else if (val.length > 3) {
-            newVal += val.substr(0, 3) + '-';
-            newVal += val.substr(3, 2);
-        } else {
-            newVal += val;
-        }
+        if (val.length > 4) { newVal += val.substr(0, 3) + '-' + val.substr(3, 2) + '-' + val.substr(5, 4); }
+        else if (val.length > 3) { newVal += val.substr(0, 3) + '-' + val.substr(3, 2); }
+        else { newVal += val; }
         e.target.value = newVal.substr(0, 11);
     });
 
-    // Clean Date Input formatting strategy rules (MM / DD / YYYY)
     function applyDateFormat(elementId) {
         document.getElementById(elementId).addEventListener('input', function (e) {
             let val = e.target.value.replace(/\D/g, '');
             let newVal = '';
-            if (val.length > 4) {
-                newVal += val.substr(0, 2) + ' / ' + val.substr(2, 2) + ' / ';
-                newVal += val.substr(4, 4);
-            } else if (val.length > 2) {
-                newVal += val.substr(0, 2) + ' / ';
-                newVal += val.substr(2, 2);
-            } else {
-                newVal += val;
-            }
+            if (val.length > 4) { newVal += val.substr(0, 2) + ' / ' + val.substr(2, 2) + ' / ' + val.substr(4, 4); }
+            else if (val.length > 2) { newVal += val.substr(0, 2) + ' / ' + val.substr(2, 2); }
+            else { newVal += val; }
             e.target.value = newVal.substr(0, 14);
         });
     }
     applyDateFormat('app_dob');
     applyDateFormat('policy_date');
 
-    // Checkbox input validation
     function checkCheckboxesValidity() {
-        const checkboxes = document.querySelectorAll('.pos-checkbox:not(#pos_other)');
-        const otherCheckbox = document.getElementById('pos_other');
-        const otherNotes = document.getElementById('app_pos_other').value.trim();
-        
+        const checkboxes = document.querySelectorAll('.pos-checkbox');
         let standardChecked = false;
-        for (let i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                standardChecked = true;
-                break;
-            }
-        }
-        
-        if (standardChecked || otherCheckbox.checked || otherNotes.length > 0) {
-            if (!standardChecked && otherNotes.length > 0) {
-                otherCheckbox.checked = true;
-            }
-            return true;
-        }
-        
+        for (let i = 0; i < checkboxes.length; i++) { if (checkboxes[i].checked) { standardChecked = true; break; } }
+        if (standardChecked) return true;
         document.getElementById('positions_anchor').scrollIntoView({ behavior: 'smooth' });
-        alert("Please select at least one position or specify details in the 'Other' notes area.");
+        alert("Please select at least one position.");
         return false;
     }
 
-    // Launch email client connection mapping string
+    // FIXED: Formats email text specifically for exactly 3 final attached document components
     function launchEmailClient() {
         const name = document.getElementById('app_name').value;
         const recipient = "gustoitalianky@gmail.com";
         const subject = encodeURIComponent("Complete Onboarding Packet - " + name);
-        const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached all 4 of my completed onboarding files:\n1. Primary Application Packet\n2. Federal W-4 Form\n3. Kentucky K-4 Form\n4. Federal I-9 Form\n\nThank you!");
-        
+        const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached all 3 of my completed onboarding files:\n1. Primary Application Packet\n2. Federal W-4 Form\n3. Federal I-9 Form\n\nThank you!");
         window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
     }
 
-    // Core validation print loop
     function validateAndPrint() {
         const form = document.getElementById('onboardingApplicationForm');
-        
         if (form.checkValidity()) {
             if (checkCheckboxesValidity()) {
                 window.print();
                 document.getElementById('successDashboard').style.display = 'block';
                 document.getElementById('successDashboard').scrollIntoView({ behavior: 'smooth' });
             }
-        } else {
-            form.reportValidity();
-            alert("Please complete all required fields and accept the handbook policies before saving your PDF.");
-        }
+        } else { form.reportValidity(); }
     }
 </script>
-
 </body>
 </html>
