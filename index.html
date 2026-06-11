@@ -61,6 +61,7 @@
             letter-spacing: 1px; cursor: pointer; transition: all 0.2s;
         }
         .lock-btn:hover { background: #e0e0e0; }
+        .lock-btn:disabled { background: #cccccc; color: #666; cursor: not-allowed; }
 
         /* Onboarding Application Content Container */
         .container {
@@ -142,7 +143,7 @@
         <h2>Gusto Italian</h2>
         <p>Onboarding Portal Locked</p>
         <input type="password" id="passcodeInput" class="lock-input" placeholder="Enter Secure Passcode">
-        <button type="button" class="lock-btn" onclick="checkPasscode();">Unlock Portal</button>
+        <button type="button" class="lock-btn" id="unlockBtn" onclick="checkPasscode();">Unlock Portal</button>
         <span class="notice-mgr">⚠️ Please contact manager for passcode</span>
     </div>
 </div>
@@ -375,7 +376,7 @@
             </div>
             <div class="form-group">
                 <label for="policy_date">Date Signed <span class="required">*</span></label>
-                <input type="text" id="policy_date" required placeholder="MM / DD / YYYY" class="auto-date-field">
+                <input type="text" id="policy_date" required placeholder="MM / DD / YYYY">
             </div>
         </div>
 
@@ -418,13 +419,18 @@
 </div>
 
 <script>
-    // FIXED: Your new optimized, deep security passcode comparison architecture
+    // ── SECURITY FIX: Passcode is validated server-side. It is never sent to the browser. ──
     function checkPasscode() {
         const input = document.getElementById('passcodeInput').value.trim();
         if (!input) {
             alert("Please enter a passcode.");
             return;
         }
+
+        // Show loading state so employee doesn't double-tap
+        const btn = document.getElementById('unlockBtn');
+        btn.innerText = "Verifying...";
+        btn.disabled = true;
 
         const scriptUrl = "https://script.google.com/macros/s/AKfycby6hppmeY7izHjz5MYBPFSE6fcMrLqO0mEmkgO2H6gRXwHftCrteMfQwzEsFHVsGcW8Cg/exec";
 
@@ -436,27 +442,43 @@
                 document.getElementById('mainPortalContent').style.display = 'block';
             } else {
                 alert("Invalid passcode. Please contact your manager.");
+                btn.innerText = "Unlock Portal";
+                btn.disabled = false;
             }
         })
         .catch(() => {
             alert("Connection error. Please wait a moment and try again.");
+            btn.innerText = "Unlock Portal";
+            btn.disabled = false;
         });
     }
 
-    // Capture Enter Key mapping on password screen
+    // Enter key support on lock screen
     document.getElementById('passcodeInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') { checkPasscode(); }
     });
 
+    // Auto-fill policy_name when app_name is typed
     document.getElementById('app_name').addEventListener('input', function(e) {
         document.getElementById('policy_name').value = e.target.value;
     });
 
+    // Auto-fill today's date into the Date Signed field on page load
+    (function setTodayDate() {
+        const today = new Date();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        const yyyy = today.getFullYear();
+        document.getElementById('policy_date').value = mm + ' / ' + dd + ' / ' + yyyy;
+    })();
+
+    // Phone number auto-formatter
     document.getElementById('app_phone').addEventListener('input', function (e) {
         let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
         e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? ' - ' + x[3] : '');
     });
 
+    // SSN auto-formatter
     document.getElementById('app_ssn').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
@@ -466,6 +488,7 @@
         e.target.value = newVal.substr(0, 11);
     });
 
+    // Date field auto-formatter (MM / DD / YYYY)
     function applyDateFormat(elementId) {
         document.getElementById(elementId).addEventListener('input', function (e) {
             let val = e.target.value.replace(/\D/g, '');
@@ -479,6 +502,7 @@
     applyDateFormat('app_dob');
     applyDateFormat('policy_date');
 
+    // Validate at least one position checkbox is selected
     function checkCheckboxesValidity() {
         const checkboxes = document.querySelectorAll('.pos-checkbox');
         let standardChecked = false;
@@ -489,6 +513,7 @@
         return false;
     }
 
+    // Launch email client with pre-filled subject and body
     function launchEmailClient() {
         const name = document.getElementById('app_name').value;
         const recipient = "gustoitalianky@gmail.com";
@@ -497,6 +522,7 @@
         window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
     }
 
+    // Validate full form then trigger print/PDF
     function validateAndPrint() {
         const form = document.getElementById('onboardingApplicationForm');
         if (form.checkValidity()) {
