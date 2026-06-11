@@ -32,11 +32,22 @@
             border: 1px solid rgba(255,255,255,0.1);
             padding: 35px 25px; border-radius: 12px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .lock-box h2 { font-size: 1.6rem; letter-spacing: 2px; margin: 0 0 10px 0; text-transform: uppercase; }
-        .lock-box p { color: #aaa; font-size: 9.5pt; margin: 0 0 25px 0; line-height: 1.4; }
-        .lock-box .notice-mgr { font-weight: 700; color: #fcc419; margin-top: 15px; display: block; font-size: 10pt; }
+        .lock-logo {
+            max-width: 140px;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+
+        .lock-box h2 { font-size: 1.5rem; letter-spacing: 2px; margin: 0 0 10px 0; text-transform: uppercase; width: 100%; }
+        .lock-box p { color: #aaa; font-size: 9.5pt; margin: 0 0 25px 0; line-height: 1.4; width: 100%; }
+        .lock-box .notice-mgr { font-weight: 700; color: #fcc419; margin-top: 15px; display: block; font-size: 10pt; width: 100%; }
         
         .lock-input {
             width: 100%; padding: 14px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);
@@ -53,7 +64,7 @@
 
         /* Onboarding Application Content Container */
         .container {
-            display: none; /* Hidden strictly until valid passcode validation handshake */
+            display: none; 
             max-width: 850px; margin: 0 auto; background-color: #ffffff; padding: 20px;
             border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
@@ -127,6 +138,7 @@
 
 <div id="lockScreen">
     <div class="lock-box">
+        <img src="logo.jpg" alt="Gusto Italian Logo" class="lock-logo">
         <h2>Gusto Italian</h2>
         <p>Onboarding Portal Locked</p>
         <input type="password" id="passcodeInput" class="lock-input" placeholder="Enter Secure Passcode">
@@ -137,6 +149,7 @@
 
 <div class="container" id="mainPortalContent">
     <div class="header">
+        <img src="logo.jpg" alt="Gusto Italian Logo" class="header-logo">
         <h1>Gusto Italian</h1>
         <p>Digital Job Application & New-Hire Packet</p>
     </div>
@@ -343,7 +356,7 @@
             </ul>
 
             <div class="policy-section-title">10. Employee Acknowledgement</div>
-            <p>I confirm that I have read and fully understood the Gusto Italian Employee Policy and agree to comply with all rules standards, and expectations contained herein.</p>
+            <p>I confirm that I have read and fully understood the Gusto Italian Employee Policy and agree to comply with all rules, standards, and expectations contained herein.</p>
         </div>
 
         <div class="legal-block">
@@ -405,33 +418,32 @@
 </div>
 
 <script>
-    var globalMasterPasscode = "";
-
-    // Secure live runtime deployment retrieval handshake
-    function fetchActivePasscode() {
-        const scriptUrl = "https://script.google.com/macros/s/AKfycby6hppmeY7izHjz5MYBPFSE6fcMrLqO0mEmkgO2H6gRXwHftCrteMfQwzEsFHVsGcW8Cg/exec";
-        fetch(scriptUrl)
-        .then(res => res.json())
-        .then(data => { if(data.passcode) globalMasterPasscode = data.passcode.trim(); })
-        .catch(err => console.log("System locked. Waiting verification path sync."));
-    }
-    fetchActivePasscode();
-
+    // FIXED: Your new optimized, deep security passcode comparison architecture
     function checkPasscode() {
         const input = document.getElementById('passcodeInput').value.trim();
-        if(globalMasterPasscode === "") {
-            alert("Connection synchronization pending. Please wait 2 seconds and tap Unlock again.");
+        if (!input) {
+            alert("Please enter a passcode.");
             return;
         }
-        if(input === globalMasterPasscode) {
-            document.getElementById('lockScreen').style.display = 'none';
-            document.getElementById('mainPortalContent').style.display = 'block';
-        } else {
-            alert("Invalid passcode sequence. Access denied. Please contact restaurant manager.");
-        }
+
+        const scriptUrl = "https://script.google.com/macros/s/AKfycby6hppmeY7izHjz5MYBPFSE6fcMrLqO0mEmkgO2H6gRXwHftCrteMfQwzEsFHVsGcW8Cg/exec";
+
+        fetch(scriptUrl + "?code=" + encodeURIComponent(input))
+        .then(res => res.json())
+        .then(data => {
+            if (data.access === "granted") {
+                document.getElementById('lockScreen').style.display = 'none';
+                document.getElementById('mainPortalContent').style.display = 'block';
+            } else {
+                alert("Invalid passcode. Please contact your manager.");
+            }
+        })
+        .catch(() => {
+            alert("Connection error. Please wait a moment and try again.");
+        });
     }
 
-    // Capture "Enter" key press on the passcode input field
+    // Capture Enter Key mapping on password screen
     document.getElementById('passcodeInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') { checkPasscode(); }
     });
@@ -477,7 +489,6 @@
         return false;
     }
 
-    // FIXED: Formats email text specifically for exactly 3 final attached document components
     function launchEmailClient() {
         const name = document.getElementById('app_name').value;
         const recipient = "gustoitalianky@gmail.com";
