@@ -291,39 +291,22 @@
             background-color: #222222;
         }
 
-        /* Custom US Print Date Footer Tracker Layout Element */
-        .print-footer-info {
-            display: none;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            font-size: 8.5pt;
-            color: #666;
-            font-family: sans-serif;
-            justify-content: space-between;
-        }
-
         @media (min-width: 600px) {
             body { padding: 20px; }
             .container { padding: 40px; }
             .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         }
 
+        /* Fixed Print Settings to keep Step 3 visible on the PDF */
         @media print {
-            /* Force Apple devices to remove default header/footers entirely so our custom US date layout shows */
-            @page { margin: 0.6in 0.4in 0.6in 0.4in; }
-            
             body { background: #fff; color: #000; padding: 0; }
-            .container { box-shadow: none; padding: 0; max-width: 100%; border: none !important; }
+            .container { box-shadow: none; padding: 0; max-width: 100%; }
             
-            .submit-panel, .instruction-box, .doc-list, #successDashboard { display: none !important; }
+            /* FIXED: Removed .instruction-box and .doc-list so Step 3 prints cleanly */
+            .submit-panel, #successDashboard { display: none !important; }
             .header-logo { display: none; }
             
-            .print-footer-info {
-                display: flex !important;
-            }
-            
+            /* Background layout fill highlights */
             input, select { 
                 border: none !important; 
                 border-bottom: 2px solid #222 !important; 
@@ -336,6 +319,23 @@
                 -webkit-print-color-adjust: exact !important; 
                 print-color-adjust: exact !important;
             }
+            
+            /* FIXED: Forces background colors to display inside Step 3 instruction box on paper */
+            .instruction-box {
+                background-color: #fff9db !important;
+                border-left: 4px solid #fcc419 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            /* FIXED: Formats Step 3 card links layout neatly on printed paper sheets */
+            .doc-link-card {
+                background-color: #f8f9fa !important;
+                border: 1px solid #ddd !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
             .form-row { display: flex; flex-wrap: nowrap; }
             .policy-viewer { max-height: none !important; overflow: visible !important; border: none !important; padding: 0 !important; }
         }
@@ -651,32 +651,9 @@
             <button type="button" id="emailLauncherBtn" class="btn-action btn-submit" style="margin-top:10px; background-color:#2b8a3e; color:#fff; border:none; max-width:290px; padding:12px;" onclick="launchEmailClient();">Open Email Application</button>
         </div>
     </form>
-    
-    <div class="print-footer-info" id="customPrintFooter">
-        <span id="footerUrl">https://gustoitalianky.github.io/application/</span>
-        <span id="footerDateTime"></span>
-    </div>
 </div>
 
 <script>
-    // Build and inject custom absolute US date stamp footer parameters
-    function setupCustomPrintFooter() {
-        const now = new Date();
-        const mm = String(now.getMonth() + 1).padStart(2, '0');
-        const dd = String(now.getDate()).padStart(2, '0');
-        const yyyy = now.getFullYear();
-        
-        let hours = now.getHours();
-        const mins = String(now.getMinutes()).padStart(2, '0');
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12; // convert 0 to 12
-        
-        // Formats cleanly to US layout (e.g., 06/10/2026, 2:44 PM)
-        document.getElementById('footerDateTime').innerText = `${mm}/${dd}/${yyyy}, ${hours}:${mins} ${ampm}`;
-    }
-    setupCustomPrintFooter();
-
     // Link text input mirroring
     document.getElementById('app_name').addEventListener('input', function(e) {
         document.getElementById('policy_name').value = e.target.value;
@@ -777,7 +754,7 @@
         return false;
     }
 
-    // Send email package values pipeline configuration
+    // Launch email client connection mapping string
     function launchEmailClient() {
         const name = document.getElementById('app_name').value;
         const recipient = "gustoitalianky@gmail.com";
@@ -787,7 +764,7 @@
         window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
     }
 
-    // Print script handling sequence
+    // Core validation print loop
     function validateAndPrint() {
         const form = document.getElementById('onboardingApplicationForm');
         
