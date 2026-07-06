@@ -124,7 +124,6 @@
             body { background: #fff; color: #000; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
             
-            /* FIXED: Removed .instruction-box and .doc-list from the hiding line so Step 3 prints flat */
             .submit-panel, #successDashboard { display: none !important; }
             .header-logo { display: none; }
             
@@ -134,7 +133,6 @@
                 -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
             }
             
-            /* FIXED: Force engine colors to preserve the yellow warning box on final paper copies */
             .instruction-box {
                 background-color: #fff9db !important;
                 border-left: 4px solid #fcc419 !important;
@@ -142,7 +140,6 @@
                 print-color-adjust: exact !important;
             }
 
-            /* FIXED: Preserve grey highlight blocks for document download shortcuts */
             .doc-link-card {
                 background-color: #f8f9fa !important;
                 border: 1px solid #ddd !important;
@@ -297,7 +294,7 @@
         <div class="section-title">Step 3: Required Legal Onboarding Documents</div>
         <div class="instruction-box">
             <strong>📢 APPLICANT INSTRUCTIONS:</strong><br>
-            Please click each link below to download the official federal onboarding documents. Open them on your device, fill out the required info, and email them along with this application PDF to <strong>gustoitalianky@gmail.com</strong>.
+            Please click each link below to download the official federal onboarding documents. Open them on your device, fill out the required info, and email them along with a copy of this application to <strong>gustoitalianky@gmail.com</strong>.
         </div>
 
         <div class="doc-list">
@@ -417,21 +414,17 @@
         </div>
 
         <div class="submit-panel">
-            <p style="font-size: 10.5pt; color: #d63031; margin: 0 0 10px 0; font-weight: bold; text-align: center;">
-                📲 iPhone Users: After clicking below, tap the [Share] button to download the PDF document.
-            </p>
-            <button type="button" class="btn-action btn-pdf" onclick="validateAndPrint();">Save Application / Create PDF</button>
+            <button type="button" id="saveAppBtn" class="btn-action btn-pdf" onclick="validateAndSubmit();">Save Application / Create PDF</button>
         </div>
 
         <div id="successDashboard">
-            <div class="success-title">🎉 Congratulations! Form Filled Out Successfully.</div>
+            <div class="success-title">🎉 Congratulations! Application Saved Successfully.</div>
             <p style="margin: 0 0 12px 0; font-size: 10.5pt; line-height: 1.5;">
-                Your primary application packet has been generated. Please follow these final instructions to submit your data:
+                Your primary application has been saved. Please follow these final instructions to complete your onboarding:
             </p>
             <ol style="margin: 0; padding-left: 20px; font-size: 10.5pt; line-height: 1.6;">
-                <li>Ensure this application PDF downloaded completely into your device storage files.</li>
-                <li>Make sure you have downloaded and filled out the other required onboarding documents from Step 3 (<strong>Federal W-4</strong> and <strong>Federal I-9 Form</strong>).</li>
-                <li>Email all 3 completed documents together directly to us at: <strong style="color: #000; background-color: #fff9db; padding: 2px 6px; border-radius: 4px; font-size: 11pt;">gustoitalianky@gmail.com</strong></li>
+                <li>Now fill out the two remaining federal onboarding documents from Step 3 (<strong>Federal W-4</strong> and <strong>Federal I-9 Form</strong>).</li>
+                <li>Email both completed documents directly to us at: <strong style="color: #000; background-color: #fff9db; padding: 2px 6px; border-radius: 4px; font-size: 11pt;">gustoitalianky@gmail.com</strong></li>
             </ol>
             <button type="button" id="emailLauncherBtn" class="btn-action btn-submit" style="margin-top:15px; background-color:#2b8a3e; color:#fff; border:none; max-width:290px; padding:12px;" onclick="launchEmailClient();">Open Email Application</button>
         </div>
@@ -439,7 +432,7 @@
 </div>
 
 <script>
-    // ── SECURITY FIX: Passcode is validated server-side. It is never sent to the browser. ──
+    // ── SECURITY: Passcode is validated server-side via Apps Script. ──
     function checkPasscode() {
         const input = document.getElementById('passcodeInput').value.trim();
         if (!input) {
@@ -447,7 +440,6 @@
             return;
         }
 
-        // Show loading state so employee doesn't double-tap
         const btn = document.getElementById('unlockBtn');
         btn.innerText = "Verifying...";
         btn.disabled = true;
@@ -473,17 +465,14 @@
         });
     }
 
-    // Enter key support on lock screen
     document.getElementById('passcodeInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') { checkPasscode(); }
     });
 
-    // Auto-fill policy_name when app_name is typed
     document.getElementById('app_name').addEventListener('input', function(e) {
         document.getElementById('policy_name').value = e.target.value;
     });
 
-    // Auto-fill today's date into the Date Signed field on page load
     (function setTodayDate() {
         const today = new Date();
         const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -492,13 +481,11 @@
         document.getElementById('policy_date').value = mm + ' / ' + dd + ' / ' + yyyy;
     })();
 
-    // Phone number auto-formatter
     document.getElementById('app_phone').addEventListener('input', function (e) {
         let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
         e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? ' - ' + x[3] : '');
     });
 
-    // SSN auto-formatter
     document.getElementById('app_ssn').addEventListener('input', function (e) {
         let val = e.target.value.replace(/\D/g, '');
         let newVal = '';
@@ -508,7 +495,6 @@
         e.target.value = newVal.substr(0, 11);
     });
 
-    // Date field auto-formatter (MM / DD / YYYY)
     function applyDateFormat(elementId) {
         document.getElementById(elementId).addEventListener('input', function (e) {
             let val = e.target.value.replace(/\D/g, '');
@@ -522,7 +508,6 @@
     applyDateFormat('app_dob');
     applyDateFormat('policy_date');
 
-    // Validate at least one position checkbox is selected
     function checkCheckboxesValidity() {
         const checkboxes = document.querySelectorAll('.pos-checkbox');
         let standardChecked = false;
@@ -533,25 +518,69 @@
         return false;
     }
 
-    // Launch email client with pre-filled subject and body
     function launchEmailClient() {
         const name = document.getElementById('app_name').value;
         const recipient = "gustoitalianky@gmail.com";
         const subject = encodeURIComponent("Complete Onboarding Packet - " + name);
-        const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached all 3 of my completed onboarding files:\n1. Primary Application Packet\n2. Federal W-4 Form\n3. Federal I-9 Form\n\nThank you!");
+        const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached my completed onboarding files:\n1. Federal W-4 Form\n2. Federal I-9 Form\n\nThank you!");
         window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
     }
 
-    // Validate full form then trigger print/PDF
-    function validateAndPrint() {
+    // ── Validate the form, then submit data to the Google Sheet (via Apps Script) ──
+    async function validateAndSubmit() {
         const form = document.getElementById('onboardingApplicationForm');
-        if (form.checkValidity()) {
-            if (checkCheckboxesValidity()) {
-                window.print();
-                document.getElementById('successDashboard').style.display = 'block';
-                document.getElementById('successDashboard').scrollIntoView({ behavior: 'smooth' });
-            }
-        } else { form.reportValidity(); }
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+        if (!checkCheckboxesValidity()) return;
+
+        const btn = document.getElementById('saveAppBtn');
+        btn.innerText = "Saving...";
+        btn.disabled = true;
+
+        const positions = [];
+        document.querySelectorAll('.pos-checkbox').forEach(cb => { if (cb.checked) positions.push(cb.value); });
+
+        const formData = new URLSearchParams();
+        formData.append('Applicant_Name', document.getElementById('app_name').value);
+        formData.append('Applicant_Email', document.getElementById('app_email').value);
+        formData.append('Applicant_Age', document.getElementById('app_age').value);
+        formData.append('Applicant_Gender', document.getElementById('app_gender').value);
+        formData.append('Applicant_Birthdate', document.getElementById('app_dob').value);
+        formData.append('Applicant_Phone', document.getElementById('app_phone').value);
+        formData.append('Applicant_SSN', document.getElementById('app_ssn').value);
+        formData.append('Applicant_Street_Address', document.getElementById('app_street').value);
+        formData.append('Applicant_City', document.getElementById('app_city').value);
+        formData.append('Applicant_State', document.getElementById('app_state').value);
+        formData.append('Applicant_Zip_Code', document.getElementById('app_zip').value);
+        formData.append('Positions_Interested', positions.join(', '));
+        formData.append('Desired_Salary_Or_Hourly', document.getElementById('app_salary').value);
+        formData.append('Felony_Conviction', document.querySelector('input[name="Felony_Conviction"]:checked').value);
+        formData.append('Bank_Account_Type', document.getElementById('bnk_type').value);
+        formData.append('Bank_Account_Number', document.getElementById('bnk_account').value);
+        formData.append('Bank_Routing_Number', document.getElementById('bnk_routing').value);
+        formData.append('Policy_Agree', document.getElementById('policy_agree').checked ? 'Yes' : 'No');
+        formData.append('Policy_Employee_Name', document.getElementById('policy_name').value);
+        formData.append('Policy_Date_Signed', document.getElementById('policy_date').value);
+        formData.append('Cert_Accuracy', document.getElementById('cert_accuracy').checked ? 'Yes' : 'No');
+        formData.append('Cert_Discharge', document.getElementById('cert_discharge').checked ? 'Yes' : 'No');
+
+        const scriptUrl = "https://script.google.com/macros/s/AKfycby6hppmeY7izHjz5MYBPFSE6fcMrLqO0mEmkgO2H6gRXwHftCrteMfQwzEsFHVsGcW8Cg/exec";
+
+        try {
+            await fetch(scriptUrl, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            });
+            document.getElementById('successDashboard').style.display = 'block';
+            document.getElementById('successDashboard').scrollIntoView({ behavior: 'smooth' });
+        } catch (err) {
+            alert("Submission error. Please check your internet connection and try again.");
+            btn.innerText = "Save Application / Create PDF";
+            btn.disabled = false;
+        }
     }
 </script>
 </body>
