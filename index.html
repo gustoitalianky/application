@@ -177,12 +177,23 @@
         
         <div class="form-row">
             <div class="form-group">
-                <label for="app_name">Full Name <span class="required">*</span></label>
-                <input type="text" id="app_name" name="Applicant_Name" required placeholder="First and Last Name">
+                <label for="app_first_name">First Name <span class="required">*</span></label>
+                <input type="text" id="app_first_name" name="Applicant_First_Name" required placeholder="First Name">
             </div>
+            <div class="form-group">
+                <label for="app_last_name">Last Name <span class="required">*</span></label>
+                <input type="text" id="app_last_name" name="Applicant_Last_Name" required placeholder="Last Name">
+            </div>
+        </div>
+
+        <div class="form-row">
             <div class="form-group">
                 <label for="app_email">Email Address <span class="required">*</span></label>
                 <input type="email" id="app_email" name="Applicant_Email" required placeholder="example@gmail.com">
+            </div>
+            <div class="form-group">
+                <label for="app_phone">Phone Number <span class="required">*</span></label>
+                <input type="text" id="app_phone" name="Applicant_Phone" required placeholder="(270) 555 - 0199" inputmode="numeric">
             </div>
         </div>
 
@@ -208,11 +219,7 @@
         </div>
 
         <div class="form-row">
-            <div class="form-group">
-                <label for="app_phone">Phone Number <span class="required">*</span></label>
-                <input type="text" id="app_phone" name="Applicant_Phone" required placeholder="(270) 555 - 0199" inputmode="numeric">
-            </div>
-            <div class="form-group">
+            <div class="form-group" style="flex: 100%;">
                 <label for="app_ssn">Social Security Number (SSN) <span class="required">*</span></label>
                 <input type="text" id="app_ssn" name="Applicant_SSN" required placeholder="000-00-0000" inputmode="numeric">
             </div>
@@ -432,7 +439,6 @@
 </div>
 
 <script>
-    // ── SECURITY: Passcode is validated server-side via Apps Script. ──
     function checkPasscode() {
         const input = document.getElementById('passcodeInput').value.trim();
         if (!input) {
@@ -469,9 +475,14 @@
         if (e.key === 'Enter') { checkPasscode(); }
     });
 
-    document.getElementById('app_name').addEventListener('input', function(e) {
-        document.getElementById('policy_name').value = e.target.value;
-    });
+    // Automatically concats First and Last name into the digital signature block down below
+    function updateSignatureField() {
+        const first = document.getElementById('app_first_name').value.trim();
+        const last = document.getElementById('app_last_name').value.trim();
+        document.getElementById('policy_name').value = (first + " " + last).trim();
+    }
+    document.getElementById('app_first_name').addEventListener('input', updateSignatureField);
+    document.getElementById('app_last_name').addEventListener('input', updateSignatureField);
 
     (function setTodayDate() {
         const today = new Date();
@@ -519,14 +530,14 @@
     }
 
     function launchEmailClient() {
-        const name = document.getElementById('app_name').value;
+        const first = document.getElementById('app_first_name').value;
+        const last = document.getElementById('app_last_name').value;
         const recipient = "gustoitalianky@gmail.com";
-        const subject = encodeURIComponent("Complete Onboarding Packet - " + name);
+        const subject = encodeURIComponent("Complete Onboarding Packet - " + first + " " + last);
         const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached my completed onboarding files:\n1. Federal W-4 Form\n2. Federal I-9 Form\n\nThank you!");
         window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
     }
 
-    // ── Validate the form, then submit data to the Google Sheet (via Apps Script) ──
     async function validateAndSubmit() {
         const form = document.getElementById('onboardingApplicationForm');
         if (!form.checkValidity()) {
@@ -543,9 +554,9 @@
         document.querySelectorAll('.pos-checkbox').forEach(cb => { if (cb.checked) positions.push(cb.value); });
 
         const formData = new URLSearchParams();
-        // Dynamically tags payload context routing for sheet splitting
         formData.append('Form_Type', 'Onboarding');
-        formData.append('Applicant_Name', document.getElementById('app_name').value);
+        formData.append('Applicant_First_Name', document.getElementById('app_first_name').value);
+        formData.append('Applicant_Last_Name', document.getElementById('app_last_name').value);
         formData.append('Applicant_Email', document.getElementById('app_email').value);
         formData.append('Applicant_Age', document.getElementById('app_age').value);
         formData.append('Applicant_Gender', document.getElementById('app_gender').value);
