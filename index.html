@@ -179,7 +179,6 @@
     </div>
 
     <form id="onboardingApplicationForm" onsubmit="event.preventDefault();">
-        <!-- STEP 1 -->
         <div class="section-title" id="positions_anchor">Step 1: Primary Employment Application</div>
         
         <div class="form-row">
@@ -285,7 +284,6 @@
             </div>
         </div>
 
-        <!-- STEP 2 -->
         <div class="section-title">Step 2: Direct Deposit Enrollment</div>
         <div class="form-row">
             <div class="form-group">
@@ -306,7 +304,6 @@
             </div>
         </div>
 
-        <!-- STEP 3: TAX WITHHOLDING PARAMETERS -->
         <div style="margin-bottom: 20px; padding: 0 10px;">
             <div class="section-title">Step 3: Tax Withholding Parameters</div>
             <div class="sub-section-title">Federal Taxes (2026 W-4)</div>
@@ -361,7 +358,6 @@
             </div>
         </div>
 
-        <!-- State Taxes -->
         <div style="margin-bottom: 20px; padding: 0 10px;">
             <div class="sub-section-title">State Taxes (Kentucky)</div>
             <div class="form-row">
@@ -386,14 +382,13 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group style="flex: 100%;">
+                <div class="form-group" style="flex: 100%;">
                     <label for="state_extra_withholding">State Extra Withholding ($)</label>
                     <input type="text" id="state_extra_withholding" placeholder="0.00">
                 </div>
             </div>
         </div>
 
-        <!-- STEP 4 -->
         <div class="section-title">Step 4: Required Legal Onboarding Documents</div>
         <div class="instruction-box">
             <strong>APPLICANT INSTRUCTIONS:</strong><br>
@@ -409,7 +404,6 @@
             </a>
         </div>
 
-        <!-- STEP 5 -->
         <div class="section-title" id="policy_anchor">Step 5: Employee Policy & Conduct Agreement</div>
         <div class="policy-viewer">
             <div style="text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 5px;">GUSTO ITALIAN</div>
@@ -501,7 +495,6 @@
             </div>
         </div>
 
-        <!-- STEP 6 -->
         <div class="section-title">Step 6: Applicant Certification & Submission</div>
         <div class="legal-block">
             <div class="legal-item">
@@ -632,7 +625,9 @@
         const recipient = "gustoitalianky@gmail.com";
         const subject = encodeURIComponent("Complete Onboarding Packet - " + first + " " + last);
         const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached my completed onboarding files:\n1. Federal W-4 Form\n2. Federal I-9 Form\n\nThank you!");
-        window.location.href = "mailto:" + recipient + "?subject=" + subject + "?body=" + body;
+        
+        // Correct ampersand syntax for multiple email URI criteria routing
+        window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
     }
 
     async function validateAndSubmit() {
