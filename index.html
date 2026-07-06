@@ -85,6 +85,7 @@
         .w-50 { min-width: 200px; }
         label { display: block; font-weight: 600; font-size: 10pt; margin-bottom: 6px; color: #111; }
         .required { color: #c00; }
+        .subtext { font-weight: normal; font-size: 8.5pt; color: #666; display: inline-block; margin-left: 4px; }
 
         input[type="text"], input[type="email"], input[type="number"], select {
             width: 100% !important; max-width: 100% !important; display: block; padding: 12px 10px;
@@ -178,6 +179,7 @@
     </div>
 
     <form id="onboardingApplicationForm" onsubmit="event.preventDefault();">
+        <!-- STEP 1 -->
         <div class="section-title" id="positions_anchor">Step 1: Primary Employment Application</div>
         
         <div class="form-row">
@@ -283,6 +285,7 @@
             </div>
         </div>
 
+        <!-- STEP 2 -->
         <div class="section-title">Step 2: Direct Deposit Enrollment</div>
         <div class="form-row">
             <div class="form-group">
@@ -303,8 +306,10 @@
             </div>
         </div>
 
+        <!-- STEP 3: TAX WITHHOLDING PARAMETERS -->
         <div class="section-title">Step 3: Tax Withholding Parameters</div>
 
+        <!-- Federal Taxes -->
         <div style="margin-bottom: 20px; padding: 0 10px;">
             <div class="sub-section-title">Federal Taxes (2026 W-4)</div>
             <div class="form-row">
@@ -324,34 +329,36 @@
                         <option value="Exempt">Exempt</option>
                     </select>
                 </div>
-                <div class="form-group w-33" style="display: flex; align-items: center; padding-top: 30px;">
-                    <div class="option-item">
+                <div class="form-group w-33">
+                    <label for="fed_multiple_jobs">Multiple Jobs or Spouse Works: <span class="subtext">W-4 Step 2</span></label>
+                    <div class="option-item" style="padding-top: 10px;">
                         <input type="checkbox" id="fed_multiple_jobs" value="Yes">
-                        <label for="fed_multiple_jobs" style="display:inline; font-weight:normal;">Multiple Jobs / Spouse Works (Step 2)</label>
+                        <label for="fed_multiple_jobs" style="display:inline; font-weight:normal;">Working two jobs</label>
                     </div>
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group w-25">
-                    <label for="fed_dependents">Claim Dependents ($)</label>
+                    <label for="fed_dependents">Claim Dependents ($) <span class="subtext">W-4 Step 3</span></label>
                     <input type="text" id="fed_dependents" placeholder="0.00">
                 </div>
                 <div class="form-group w-25">
-                    <label for="fed_other_income">Other Income ($)</label>
+                    <label for="fed_other_income">Other Income ($) <span class="subtext">W-4 Step 4 (a)</span></label>
                     <input type="text" id="fed_other_income" placeholder="0.00">
                 </div>
                 <div class="form-group w-25">
-                    <label for="fed_deductions">Deductions ($)</label>
+                    <label for="fed_deductions">Deductions ($) <span class="subtext">W-4 Step 4 (b)</span></label>
                     <input type="text" id="fed_deductions" placeholder="0.00">
                 </div>
                 <div class="form-group w-25">
-                    <label for="fed_extra_withholding">Extra Withholding ($)</label>
+                    <label for="fed_extra_withholding">Extra Withholding ($) <span class="subtext">W-4 Step 4 (c)</span></label>
                     <input type="text" id="fed_extra_withholding" placeholder="0.00">
                 </div>
             </div>
         </div>
 
+        <!-- State Taxes -->
         <div style="margin-bottom: 20px; padding: 0 10px;">
             <div class="sub-section-title">State Taxes (Kentucky)</div>
             <div class="form-row">
@@ -383,6 +390,7 @@
             </div>
         </div>
 
+        <!-- STEP 4 -->
         <div class="section-title">Step 4: Required Legal Onboarding Documents</div>
         <div class="instruction-box">
             <strong>APPLICANT INSTRUCTIONS:</strong><br>
@@ -398,6 +406,7 @@
             </a>
         </div>
 
+        <!-- STEP 5 -->
         <div class="section-title" id="policy_anchor">Step 5: Employee Policy & Conduct Agreement</div>
         <div class="policy-viewer">
             <div style="text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 5px;">GUSTO ITALIAN</div>
@@ -489,6 +498,7 @@
             </div>
         </div>
 
+        <!-- STEP 6 -->
         <div class="section-title">Step 6: Applicant Certification & Submission</div>
         <div class="legal-block">
             <div class="legal-item">
