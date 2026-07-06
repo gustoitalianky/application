@@ -74,9 +74,13 @@
         .header-logo { max-width: 130px; height: auto; border-radius: 50%; margin-bottom: 12px; }
         .header h1 { font-size: 24pt; font-weight: bold; text-transform: uppercase; margin: 0; color: #000; }
         .header p { font-size: 10.5pt; font-style: italic; color: #555; margin: 5px 0 0 0; }
+        
         .section-title { font-size: 11pt; font-weight: bold; text-transform: uppercase; background-color: #111; color: #fff; padding: 10px; margin-top: 30px; margin-bottom: 15px; }
+        .sub-section-title { font-size: 10.5pt; font-weight: bold; text-transform: uppercase; color: #222; border-bottom: 1px solid #222; padding-bottom: 4px; margin: 15px 10px 5px 10px; flex: 100%; }
+        
         .form-row { display: flex; flex-wrap: wrap; margin: 0 -10px; }
         .form-group { flex: 1; min-width: 250px; padding: 10px; width: 100%; }
+        .w-25 { min-width: 130px; }
         .w-33 { min-width: 150px; }
         .w-50 { min-width: 200px; }
         label { display: block; font-weight: 600; font-size: 10pt; margin-bottom: 6px; color: #111; }
@@ -125,7 +129,6 @@
             body { background: #fff; color: #000; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
             
-            /* Hide non-essential layout details from the PDF save screen */
             .submit-panel, #successDashboard, #lockScreen { display: none !important; }
             .header-logo { display: none; }
             
@@ -175,6 +178,7 @@
     </div>
 
     <form id="onboardingApplicationForm" onsubmit="event.preventDefault();">
+        <!-- STEP 1 -->
         <div class="section-title" id="positions_anchor">Step 1: Primary Employment Application</div>
         
         <div class="form-row">
@@ -280,6 +284,7 @@
             </div>
         </div>
 
+        <!-- STEP 2 -->
         <div class="section-title">Step 2: Direct Deposit Enrollment</div>
         <div class="form-row">
             <div class="form-group">
@@ -300,7 +305,65 @@
             </div>
         </div>
 
-        <div class="section-title">Step 3: Required Legal Onboarding Documents</div>
+        <!-- NEW STEP 3: TAX INFORMATION BLOCK -->
+        <div class="section-title">Step 3: Tax Withholding Parameters</div>
+        <div class="form-row">
+            <div class="sub-section-title">Federal Tax Information</div>
+            
+            <div class="form-group w-33">
+                <label for="fed_filing_status">Filing Status <span class="required">*</span></label>
+                <select id="fed_filing_status" required>
+                    <option value="">Select Status...</option>
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                </select>
+            </div>
+            <div class="form-group w-25">
+                <label for="fed_allowances">Allowances</label>
+                <input type="number" id="fed_allowances" min="0" placeholder="0">
+            </div>
+            <div class="form-group w-33">
+                <label for="fed_extra_withholding">Extra Withholding ($)</label>
+                <input type="text" id="fed_extra_withholding" placeholder="0.00">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="sub-section-title">State Tax Information</div>
+            
+            <div class="form-group">
+                <label for="state_income_tax_state">Income Tax Filing State <span class="required">*</span></label>
+                <input type="text" id="state_income_tax_state" required placeholder="e.g. Kentucky">
+            </div>
+            <div class="form-group">
+                <label for="state_unemployment_state">Unemployment Filing State <span class="required">*</span></label>
+                <input type="text" id="state_unemployment_state" required placeholder="e.g. Kentucky">
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group w-33">
+                <label for="state_filing_status">Filing Status <span class="required">*</span></label>
+                <select id="state_filing_status" required>
+                    <option value="">Select Status...</option>
+                    <option value="Single">Single</option>
+                    <option value="Married">Married</option>
+                    <option value="Head of House">Head of House</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group w-25">
+                <label for="state_allowances">Allowances</label>
+                <input type="number" id="state_allowances" min="0" placeholder="0">
+            </div>
+            <div class="form-group w-33">
+                <label for="state_extra_withholding">Extra Withholding ($)</label>
+                <input type="text" id="state_extra_withholding" placeholder="0.00">
+            </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="section-title">Step 4: Required Legal Onboarding Documents</div>
         <div class="instruction-box">
             <strong>📢 APPLICANT INSTRUCTIONS:</strong><br>
             Please click each link below to download the official federal onboarding documents. Open them on your device, fill out the required info, and email them along with a copy of this application to <strong>gustoitalianky@gmail.com</strong>.
@@ -315,7 +378,8 @@
             </a>
         </div>
 
-        <div class="section-title" id="policy_anchor">Step 4: Employee Policy & Conduct Agreement</div>
+        <!-- STEP 5 -->
+        <div class="section-title" id="policy_anchor">Step 5: Employee Policy & Conduct Agreement</div>
         <div class="policy-viewer">
             <div style="text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 5px;">GUSTO ITALIAN</div>
             <div style="text-align: center; font-style: italic; margin-bottom: 15px;">Employee Policy & Conduct Agreement</div>
@@ -406,7 +470,8 @@
             </div>
         </div>
 
-        <div class="section-title">Step 5: Applicant Certification & Submission</div>
+        <!-- STEP 6 -->
+        <div class="section-title">Step 6: Applicant Certification & Submission</div>
         <div class="legal-block">
             <div class="legal-item">
                 <input type="checkbox" id="cert_accuracy" required style="margin-top: 3px;">
@@ -432,7 +497,7 @@
                 Your primary application has been saved. Please follow these final instructions to complete your onboarding:
             </p>
             <ol style="margin: 0; padding-left: 20px; font-size: 10.5pt; line-height: 1.6;">
-                <li>Now fill out the two remaining federal onboarding documents from Step 3 (<strong>Federal W-4</strong> and <strong>Federal I-9 Form</strong>).</li>
+                <li>Now fill out the two remaining federal onboarding documents from Step 4 (<strong>Federal W-4</strong> and <strong>Federal I-9 Form</strong>).</li>
                 <li>Email both completed documents directly to us at: <strong style="color: #000; background-color: #fff9db; padding: 2px 6px; border-radius: 4px; font-size: 11pt;">gustoitalianky@gmail.com</strong></li>
             </ol>
             <button type="button" id="emailLauncherBtn" class="btn-action btn-submit" style="margin-top:15px; background-color:#2b8a3e; color:#fff; border:none; max-width:290px; padding:12px;" onclick="launchEmailClient();">Open Email Application</button>
@@ -536,7 +601,7 @@
         const recipient = "gustoitalianky@gmail.com";
         const subject = encodeURIComponent("Complete Onboarding Packet - " + first + " " + last);
         const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached my completed onboarding files:\n1. Federal W-4 Form\n2. Federal I-9 Form\n\nThank you!");
-        window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
+        window.location.href = "mailto:" + recipient + "?subject=" + subject + "?body=" + body;
     }
 
     async function validateAndSubmit() {
@@ -574,6 +639,17 @@
         formData.append('Bank_Account_Type', document.getElementById('bnk_type').value);
         formData.append('Bank_Account_Number', document.getElementById('bnk_account').value);
         formData.append('Bank_Routing_Number', document.getElementById('bnk_routing').value);
+        
+        // New Tax Fields passed to your Google Apps Script backend
+        formData.append('Fed_Filing_Status', document.getElementById('fed_filing_status').value);
+        formData.append('Fed_Allowances', document.getElementById('fed_allowances').value || "0");
+        formData.append('Fed_Extra_Withholding', document.getElementById('fed_extra_withholding').value || "0.00");
+        formData.append('State_Income_Tax_State', document.getElementById('state_income_tax_state').value);
+        formData.append('State_Unemployment_State', document.getElementById('state_unemployment_state').value);
+        formData.append('State_Filing_Status', document.getElementById('state_filing_status').value);
+        formData.append('State_Allowances', document.getElementById('state_allowances').value || "0");
+        formData.append('State_Extra_Withholding', document.getElementById('state_extra_withholding').value || "0.00");
+
         formData.append('Policy_Agree', document.getElementById('policy_agree').checked ? 'Yes' : 'No');
         formData.append('Policy_Employee_Name', document.getElementById('policy_name').value);
         formData.append('Policy_Date_Signed', document.getElementById('policy_date').value);
@@ -583,20 +659,15 @@
         const scriptUrl = "https://script.google.com/macros/s/AKfycby6hppmeY7izHjz5MYBPFSE6fcMrLqO0mEmkgO2H6gRXwHftCrteMfQwzEsFHVsGcW8Cg/exec";
 
         try {
-            // 1. Post dataset securely into the backend Google Sheets configuration
             await fetch(scriptUrl, {
                 method: 'POST',
                 body: formData,
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             });
 
-            // 2. Hide the submit button element before print optimization maps out layout
             btn.parentElement.style.display = 'none';
-
-            // 3. Prompt the OS to print or capture a PDF directly to device local file systems
             window.print();
 
-            // 4. Reveal the post-onboarding completion dashboard instructions layout
             document.getElementById('successDashboard').style.display = 'block';
             document.getElementById('successDashboard').scrollIntoView({ behavior: 'smooth' });
         } catch (err) {
