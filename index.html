@@ -76,7 +76,7 @@
         .header p { font-size: 10.5pt; font-style: italic; color: #555; margin: 5px 0 0 0; }
         
         .section-title { font-size: 11pt; font-weight: bold; text-transform: uppercase; background-color: #111; color: #fff; padding: 10px; margin-top: 30px; margin-bottom: 15px; }
-        .sub-section-title { font-size: 10.5pt; font-weight: bold; text-transform: uppercase; color: #222; border-bottom: 1px solid #222; padding-bottom: 4px; margin: 15px 10px 5px 10px; flex: 100%; }
+        .sub-section-title { font-size: 10.5pt; font-weight: bold; text-transform: uppercase; color: #222; border-bottom: 1px solid #222; padding-bottom: 4px; margin: 5px 0 15px 0; }
         
         .form-row { display: flex; flex-wrap: wrap; margin: 0 -10px; }
         .form-group { flex: 1; min-width: 250px; padding: 10px; width: 100%; }
@@ -124,7 +124,7 @@
 
         @media (min-width: 600px) { body { padding: 20px; } .container { padding: 40px; } .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
-        /* ── EXPLICIT RULES WHEN PRINTING OR GENERATING A PDF ── */
+        /* EXPLICIT PRINT / PDF ENGINE OVERRIDES */
         @media print {
             body { background: #fff; color: #000; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
@@ -305,60 +305,111 @@
             </div>
         </div>
 
-        <!-- NEW STEP 3: TAX INFORMATION BLOCK -->
+        <!-- STEP 3: TAX WITHHOLDING PARAMETERS (MATCHED TO SUREPAYROLL) -->
         <div class="section-title">Step 3: Tax Withholding Parameters</div>
-        <div class="form-row">
-            <div class="sub-section-title">Federal Tax Information</div>
+
+        <!-- Federal Taxes (2026 W-4 Form Rules) -->
+        <div style="margin-bottom: 20px; padding: 0 10px;">
+            <div class="sub-section-title">Federal Taxes (2026 W-4)</div>
+            <div class="form-row">
+                <div class="form-group w-33">
+                    <label for="fed_filing_status">Filing Status <span class="required">*</span></label>
+                    <select id="fed_filing_status" required>
+                        <option value="">Select Status...</option>
+                        <option value="Single or married filing separately">Single or married filing separately</option>
+                        <option value="Married filing jointly">Married filing jointly</option>
+                        <option value="Head of Household">Head of Household</option>
+                    </select>
+                </div>
+                <div class="form-group w-33">
+                    <label for="fed_withholding_tax">Withholding Tax <span class="required">*</span></label>
+                    <select id="fed_withholding_tax" required>
+                        <option value="Subject" selected>Subject</option>
+                        <option value="Exempt">Exempt</option>
+                    </select>
+                </div>
+                <div class="form-group w-33" style="display: flex; align-items: center; padding-top: 30px;">
+                    <div class="option-item">
+                        <input type="checkbox" id="fed_multiple_jobs" value="Yes">
+                        <label for="fed_multiple_jobs" style="display:inline; font-weight:normal;">Multiple Jobs / Spouse Works (Step 2)</label>
+                    </div>
+                </div>
+            </div>
             
-            <div class="form-group w-33">
-                <label for="fed_filing_status">Filing Status <span class="required">*</span></label>
-                <select id="fed_filing_status" required>
-                    <option value="">Select Status...</option>
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                </select>
-            </div>
-            <div class="form-group w-25">
-                <label for="fed_allowances">Allowances</label>
-                <input type="number" id="fed_allowances" min="0" placeholder="0">
-            </div>
-            <div class="form-group w-33">
-                <label for="fed_extra_withholding">Extra Withholding ($)</label>
-                <input type="text" id="fed_extra_withholding" placeholder="0.00">
+            <div class="form-row">
+                <div class="form-group w-25">
+                    <label for="fed_dependents">Claim Dependents ($)</label>
+                    <input type="text" id="fed_dependents" placeholder="0.00">
+                </div>
+                <div class="form-group w-25">
+                    <label for="fed_other_income">Other Income ($)</label>
+                    <input type="text" id="fed_other_income" placeholder="0.00">
+                </div>
+                <div class="form-group w-25">
+                    <label for="fed_deductions">Deductions ($)</label>
+                    <input type="text" id="fed_deductions" placeholder="0.00">
+                </div>
+                <div class="form-group w-25">
+                    <label for="fed_extra_withholding">Extra Withholding ($)</label>
+                    <input type="text" id="fed_extra_withholding" placeholder="0.00">
+                </div>
             </div>
         </div>
 
-        <div class="form-row">
-            <div class="sub-section-title">State Tax Information</div>
-            
-            <div class="form-group">
-                <label for="state_income_tax_state">Income Tax Filing State <span class="required">*</span></label>
-                <input type="text" id="state_income_tax_state" required placeholder="e.g. Kentucky">
+        <!-- State Taxes -->
+        <div style="margin-bottom: 20px; padding: 0 10px;">
+            <div class="sub-section-title">State Taxes (Kentucky)</div>
+            <div class="form-row">
+                <div class="form-group w-33">
+                    <label for="state_filing_status">State Filing Status <span class="required">*</span></label>
+                    <select id="state_filing_status" required>
+                        <option value="">Select Status...</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                    </select>
+                </div>
+                <div class="form-group w-33">
+                    <label for="state_exempt">Exempt from Withholding? <span class="required">*</span></label>
+                    <select id="state_exempt" required>
+                        <option value="No" selected>No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group w-33">
+                    <label for="state_allowances">State Allowances <span class="required">*</span></label>
+                    <input type="number" id="state_allowances" min="0" value="0" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="state_unemployment_state">Unemployment Filing State <span class="required">*</span></label>
-                <input type="text" id="state_unemployment_state" required placeholder="e.g. Kentucky">
+            <div class="form-row">
+                <div class="form-group w-50">
+                    <label for="state_extra_withholding">State Extra Withholding ($)</label>
+                    <input type="text" id="state_extra_withholding" placeholder="0.00">
+                </div>
             </div>
         </div>
-        
-        <div class="form-row">
-            <div class="form-group w-33">
-                <label for="state_filing_status">Filing Status <span class="required">*</span></label>
-                <select id="state_filing_status" required>
-                    <option value="">Select Status...</option>
-                    <option value="Single">Single</option>
-                    <option value="Married">Married</option>
-                    <option value="Head of House">Head of House</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
-            <div class="form-group w-25">
-                <label for="state_allowances">Allowances</label>
-                <input type="number" id="state_allowances" min="0" placeholder="0">
-            </div>
-            <div class="form-group w-33">
-                <label for="state_extra_withholding">Extra Withholding ($)</label>
-                <input type="text" id="state_extra_withholding" placeholder="0.00">
+
+        <!-- Additional Tax Questions -->
+        <div style="margin-bottom: 20px; padding: 0 10px;">
+            <div class="sub-section-title">Additional Tax & Unemployment Settings</div>
+            <div class="form-row">
+                <div class="form-group w-33">
+                    <label for="state_unemployment_state">Unemployment Filing State</label>
+                    <input type="text" id="state_unemployment_state" value="KENTUCKY" readonly style="background-color: #e9ecef;">
+                </div>
+                <div class="form-group w-33">
+                    <label for="exempt_sui">Exempt from SUI? <span class="required">*</span></label>
+                    <select id="exempt_sui" required>
+                        <option value="No" selected>No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group w-33">
+                    <label for="exempt_futa">Exempt from FUTA? <span class="required">*</span></label>
+                    <select id="exempt_futa" required>
+                        <option value="No" selected>No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -640,15 +691,23 @@
         formData.append('Bank_Account_Number', document.getElementById('bnk_account').value);
         formData.append('Bank_Routing_Number', document.getElementById('bnk_routing').value);
         
-        // New Tax Fields passed to your Google Apps Script backend
+        // SUREPAYROLL SYNCHRONIZED BACKEND DATA MANIFEST
         formData.append('Fed_Filing_Status', document.getElementById('fed_filing_status').value);
-        formData.append('Fed_Allowances', document.getElementById('fed_allowances').value || "0");
+        formData.append('Fed_Withholding_Tax', document.getElementById('fed_withholding_tax').value);
+        formData.append('Fed_Multiple_Jobs', document.getElementById('fed_multiple_jobs').checked ? 'Yes' : 'No');
+        formData.append('Fed_Dependents', document.getElementById('fed_dependents').value || "0.00");
+        formData.append('Fed_Other_Income', document.getElementById('fed_other_income').value || "0.00");
+        formData.append('Fed_Deductions', document.getElementById('fed_deductions').value || "0.00");
         formData.append('Fed_Extra_Withholding', document.getElementById('fed_extra_withholding').value || "0.00");
-        formData.append('State_Income_Tax_State', document.getElementById('state_income_tax_state').value);
-        formData.append('State_Unemployment_State', document.getElementById('state_unemployment_state').value);
+
         formData.append('State_Filing_Status', document.getElementById('state_filing_status').value);
+        formData.append('State_Exempt', document.getElementById('state_exempt').value);
         formData.append('State_Allowances', document.getElementById('state_allowances').value || "0");
         formData.append('State_Extra_Withholding', document.getElementById('state_extra_withholding').value || "0.00");
+
+        formData.append('Unemployment_Filing_State', document.getElementById('state_unemployment_state').value);
+        formData.append('Exempt_SUI', document.getElementById('exempt_sui').value);
+        formData.append('Exempt_FUTA', document.getElementById('exempt_futa').value);
 
         formData.append('Policy_Agree', document.getElementById('policy_agree').checked ? 'Yes' : 'No');
         formData.append('Policy_Employee_Name', document.getElementById('policy_name').value);
