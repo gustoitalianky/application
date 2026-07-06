@@ -17,7 +17,6 @@
             padding: 10px;
         }
 
-        /* Sleek Executive Lock Screen Wrapper */
         #lockScreen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -63,7 +62,6 @@
         .lock-btn:hover { background: #e0e0e0; }
         .lock-btn:disabled { background: #cccccc; color: #666; cursor: not-allowed; }
 
-        /* Onboarding Application Content Container */
         .container {
             display: none; 
             max-width: 850px; margin: 0 auto; background-color: #ffffff; padding: 20px;
@@ -123,39 +121,27 @@
         .btn-action { width: 100%; max-width: 360px; padding: 18px; font-size: 12pt; font-weight: bold; text-transform: uppercase; border-radius: 4px; cursor: pointer; text-align: center; text-decoration: none; display: block; }
         .btn-pdf { background-color: #000000; color: #ffffff; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        @media (min-width: 600px) { body { padding: 20px; } .container { padding: 40px; } .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; } }
-
-        /* EXPLICIT PRINT / PDF ENGINE OVERRIDES */
+        /* Hide copy confirmation inputs when creating PDF records */
         @media print {
             body { background: #fff; color: #000; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
-            
             .submit-panel, #successDashboard, #lockScreen { display: none !important; }
             .header-logo { display: none; }
+            
+            /* Completely hide confirmation fields on paper/PDF print outs */
+            .no-print { display: none !important; }
             
             input, select { 
                 border: none !important; border-bottom: 2px solid #222 !important; border-radius: 4px 4px 0 0 !important; 
                 background-color: #f1f3f5 !important; color: #000 !important; font-weight: 800 !important; font-size: 11.5pt !important; padding: 6px 10px !important;
                 -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
             }
-            
-            .instruction-box {
-                background-color: #fff9db !important;
-                border-left: 4px solid #fcc419 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .doc-link-card {
-                background-color: #f8f9fa !important;
-                border: 1px solid #ddd !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
+            .instruction-box { background-color: #fff9db !important; border-left: 4px solid #fcc419 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .doc-link-card { background-color: #f8f9fa !important; border: 1px solid #ddd !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
             .form-row { display: flex; flex-wrap: nowrap; }
             .policy-viewer { max-height: none !important; overflow: visible !important; border: none !important; padding: 0 !important; }
         }
+        @media (min-width: 600px) { body { padding: 20px; } .container { padding: 40px; } .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; } }
     </style>
 </head>
 <body>
@@ -179,6 +165,7 @@
     </div>
 
     <form id="onboardingApplicationForm" onsubmit="event.preventDefault();">
+        <!-- STEP 1 -->
         <div class="section-title" id="positions_anchor">Step 1: Primary Employment Application</div>
         
         <div class="form-row">
@@ -284,9 +271,14 @@
             </div>
         </div>
 
-        <div class="section-title">Step 2: Direct Deposit Enrollment</div>
+        <!-- STEP 2: DIRECT DEPOSIT ENROLLMENT WITH DOUBLE VERIFICATION FIELDS -->
+        <div class="section-title" id="direct_deposit_anchor">Step 2: Direct Deposit Enrollment</div>
+        <div class="instruction-box">
+            <strong>IMPORTANT:</strong> To prevent processing errors, you must type your numbers manually into both fields. Copying and pasting inside these boxes has been disabled.
+        </div>
+        
         <div class="form-row">
-            <div class="form-group">
+            <div class="form-group" style="flex: 100%;">
                 <label for="bnk_type">Account Type <span class="required">*</span></label>
                 <select id="bnk_type" name="Bank_Account_Type" required>
                     <option value="">Select...</option>
@@ -294,16 +286,31 @@
                     <option value="Savings">Savings Account</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="bnk_account">Bank Account Number <span class="required">*</span></label>
-                <input type="text" id="bnk_account" name="Bank_Account_Number" required placeholder="e.g. 730807282">
-            </div>
+        </div>
+
+        <div class="form-row">
             <div class="form-group">
                 <label for="bnk_routing">Bank Routing Number <span class="required">*</span></label>
-                <input type="text" id="bnk_routing" name="Bank_Routing_Number" required placeholder="e.g. 065400137">
+                <input type="text" id="bnk_routing" name="Bank_Routing_Number" required placeholder="9-Digit Routing Number" onpaste="return false;" inputmode="numeric">
+            </div>
+            <div class="form-group no-print">
+                <label for="bnk_routing_confirm">Confirm Bank Routing Number <span class="required">*</span></label>
+                <input type="text" id="bnk_routing_confirm" required placeholder="Retype Routing Number" onpaste="return false;" inputmode="numeric">
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="form-group">
+                <label for="bnk_account">Bank Account Number <span class="required">*</span></label>
+                <input type="text" id="bnk_account" name="Bank_Account_Number" required placeholder="Account Number" onpaste="return false;" inputmode="numeric">
+            </div>
+            <div class="form-group no-print">
+                <label for="bnk_account_confirm">Confirm Bank Account Number <span class="required">*</span></label>
+                <input type="text" id="bnk_account_confirm" required placeholder="Retype Account Number" onpaste="return false;" inputmode="numeric">
+            </div>
+        </div>
+
+        <!-- STEP 3: TAX WITHHOLDING PARAMETERS -->
         <div style="margin-bottom: 20px; padding: 0 10px;">
             <div class="section-title">Step 3: Tax Withholding Parameters</div>
             <div class="sub-section-title">Federal Taxes (2026 W-4)</div>
@@ -358,6 +365,7 @@
             </div>
         </div>
 
+        <!-- State Taxes -->
         <div style="margin-bottom: 20px; padding: 0 10px;">
             <div class="sub-section-title">State Taxes (Kentucky)</div>
             <div class="form-row">
@@ -389,6 +397,7 @@
             </div>
         </div>
 
+        <!-- STEP 4 -->
         <div class="section-title">Step 4: Required Legal Onboarding Documents</div>
         <div class="instruction-box">
             <strong>APPLICANT INSTRUCTIONS:</strong><br>
@@ -404,6 +413,7 @@
             </a>
         </div>
 
+        <!-- STEP 5 -->
         <div class="section-title" id="policy_anchor">Step 5: Employee Policy & Conduct Agreement</div>
         <div class="policy-viewer">
             <div style="text-align: center; font-weight: bold; font-size: 13pt; margin-bottom: 5px;">GUSTO ITALIAN</div>
@@ -495,6 +505,7 @@
             </div>
         </div>
 
+        <!-- STEP 6 -->
         <div class="section-title">Step 6: Applicant Certification & Submission</div>
         <div class="legal-block">
             <div class="legal-item">
@@ -625,8 +636,6 @@
         const recipient = "gustoitalianky@gmail.com";
         const subject = encodeURIComponent("Complete Onboarding Packet - " + first + " " + last);
         const body = encodeURIComponent("Hi Management Team,\n\nPlease find attached my completed onboarding files:\n1. Federal W-4 Form\n2. Federal I-9 Form\n\nThank you!");
-        
-        // Correct ampersand syntax for multiple email URI criteria routing
         window.location.href = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
     }
 
@@ -636,6 +645,24 @@
             form.reportValidity();
             return;
         }
+
+        // DOUBLE-TYPED SECURITY MATCH VALIDATION
+        const r1 = document.getElementById('bnk_routing').value.trim();
+        const r2 = document.getElementById('bnk_routing_confirm').value.trim();
+        if (r1 !== r2) {
+            document.getElementById('direct_deposit_anchor').scrollIntoView({ behavior: 'smooth' });
+            alert("Security Alert: Your Routing Numbers do not match! Please verify and type them carefully.");
+            return;
+        }
+
+        const a1 = document.getElementById('bnk_account').value.trim();
+        const a2 = document.getElementById('bnk_account_confirm').value.trim();
+        if (a1 !== a2) {
+            document.getElementById('direct_deposit_anchor').scrollIntoView({ behavior: 'smooth' });
+            alert("Security Alert: Your Bank Account Numbers do not match! Please verify and type them carefully.");
+            return;
+        }
+
         if (!checkCheckboxesValidity()) return;
 
         const btn = document.getElementById('saveAppBtn');
@@ -663,10 +690,9 @@
         formData.append('Desired_Salary_Or_Hourly', document.getElementById('app_salary').value);
         formData.append('Felony_Conviction', document.querySelector('input[name="Felony_Conviction"]:checked').value);
         formData.append('Bank_Account_Type', document.getElementById('bnk_type').value);
-        formData.append('Bank_Account_Number', document.getElementById('bnk_account').value);
-        formData.append('Bank_Routing_Number', document.getElementById('bnk_routing').value);
+        formData.append('Bank_Account_Number', a1);
+        formData.append('Bank_Routing_Number', r1);
         
-        // SUREPAYROLL SYNCHRONIZED BACKEND DATA MANIFEST
         formData.append('Fed_Filing_Status', document.getElementById('fed_filing_status').value);
         formData.append('Fed_Withholding_Tax', document.getElementById('fed_withholding_tax').value);
         formData.append('Fed_Multiple_Jobs', document.getElementById('fed_multiple_jobs').checked ? 'Yes' : 'No');
