@@ -166,7 +166,7 @@
         <p>Onboarding Portal Locked</p>
         <input type="password" id="passcodeInput" class="lock-input" placeholder="Enter Secure Passcode">
         <button type="button" class="lock-btn" id="unlockBtn" onclick="checkPasscode();">Unlock Portal</button>
-        <span class="notice-mgr">⚠️ Please contact manager for passcode</span>
+        <span class="notice-mgr">笞ｸPlease contact manager for passcode</span>
     </div>
 </div>
 
@@ -388,44 +388,19 @@
             </div>
         </div>
 
-        <!-- Additional Tax Questions -->
-        <div style="margin-bottom: 20px; padding: 0 10px;">
-            <div class="sub-section-title">Additional Tax & Unemployment Settings</div>
-            <div class="form-row">
-                <div class="form-group w-33">
-                    <label for="state_unemployment_state">Unemployment Filing State</label>
-                    <input type="text" id="state_unemployment_state" value="KENTUCKY" readonly style="background-color: #e9ecef;">
-                </div>
-                <div class="form-group w-33">
-                    <label for="exempt_sui">Exempt from SUI? <span class="required">*</span></label>
-                    <select id="exempt_sui" required>
-                        <option value="No" selected>No</option>
-                        <option value="Yes">Yes</option>
-                    </select>
-                </div>
-                <div class="form-group w-33">
-                    <label for="exempt_futa">Exempt from FUTA? <span class="required">*</span></label>
-                    <select id="exempt_futa" required>
-                        <option value="No" selected>No</option>
-                        <option value="Yes">Yes</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
         <!-- STEP 4 -->
         <div class="section-title">Step 4: Required Legal Onboarding Documents</div>
         <div class="instruction-box">
-            <strong>📢 APPLICANT INSTRUCTIONS:</strong><br>
+            <strong>討 APPLICANT INSTRUCTIONS:</strong><br>
             Please click each link below to download the official federal onboarding documents. Open them on your device, fill out the required info, and email them along with a copy of this application to <strong>gustoitalianky@gmail.com</strong>.
         </div>
 
         <div class="doc-list">
             <a href="https://www.irs.gov/pub/irs-pdf/fw4.pdf" target="_blank" class="doc-link-card">
-                <span class="doc-icon">📄</span> 1. Download Federal W-4 Form (IRS Income Tax Withholding)
+                <span class="doc-icon">塘</span> 1. Download Federal W-4 Form (IRS Income Tax Withholding)
             </a>
             <a href="https://www.uscis.gov/sites/default/files/document/forms/i-9.pdf" target="_blank" class="doc-link-card">
-                <span class="doc-icon">📄</span> 2. Download Federal I-9 Form (Employment Eligibility Verification)
+                <span class="doc-icon">塘</span> 2. Download Federal I-9 Form (Employment Eligibility Verification)
             </a>
         </div>
 
@@ -543,7 +518,7 @@
         </div>
 
         <div id="successDashboard">
-            <div class="success-title">🎉 Congratulations! Application Saved Successfully.</div>
+            <div class="success-title">脂 Congratulations! Application Saved Successfully.</div>
             <p style="margin: 0 0 12px 0; font-size: 10.5pt; line-height: 1.5;">
                 Your primary application has been saved. Please follow these final instructions to complete your onboarding:
             </p>
@@ -704,10 +679,6 @@
         formData.append('State_Exempt', document.getElementById('state_exempt').value);
         formData.append('State_Allowances', document.getElementById('state_allowances').value || "0");
         formData.append('State_Extra_Withholding', document.getElementById('state_extra_withholding').value || "0.00");
-
-        formData.append('Unemployment_Filing_State', document.getElementById('state_unemployment_state').value);
-        formData.append('Exempt_SUI', document.getElementById('exempt_sui').value);
-        formData.append('Exempt_FUTA', document.getElementById('exempt_futa').value);
 
         formData.append('Policy_Agree', document.getElementById('policy_agree').checked ? 'Yes' : 'No');
         formData.append('Policy_Employee_Name', document.getElementById('policy_name').value);
