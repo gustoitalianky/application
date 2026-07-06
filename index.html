@@ -85,7 +85,7 @@
         .w-50 { min-width: 200px; }
         label { display: block; font-weight: 600; font-size: 10pt; margin-bottom: 6px; color: #111; }
         .required { color: #c00; }
-        .subtext { font-weight: normal; font-size: 8.5pt; color: #666; display: inline-block; margin-left: 4px; }
+        .subtext { font-weight: normal; font-size: 8.5pt; color: #666; display: block; margin-bottom: 6px; }
 
         input[type="text"], input[type="email"], input[type="number"], select {
             width: 100% !important; max-width: 100% !important; display: block; padding: 12px 10px;
@@ -307,12 +307,10 @@
         </div>
 
         <!-- STEP 3: TAX WITHHOLDING PARAMETERS -->
-        <div class="section-title">Step 3: Tax Withholding Parameters</div>
-
-        <!-- Federal Taxes -->
         <div style="margin-bottom: 20px; padding: 0 10px;">
+            <div class="section-title">Step 3: Tax Withholding Parameters</div>
             <div class="sub-section-title">Federal Taxes (2026 W-4)</div>
-            <div class="form-row">
+            <div class="form-row" style="align-items: flex-start;">
                 <div class="form-group w-33">
                     <label for="fed_filing_status">Filing Status <span class="required">*</span></label>
                     <select id="fed_filing_status" required>
@@ -330,29 +328,34 @@
                     </select>
                 </div>
                 <div class="form-group w-33">
-                    <label for="fed_multiple_jobs">Multiple Jobs or Spouse Works: <span class="subtext">W-4 Step 2</span></label>
-                    <div class="option-item" style="padding-top: 10px;">
-                        <input type="checkbox" id="fed_multiple_jobs" value="Yes">
-                        <label for="fed_multiple_jobs" style="display:inline; font-weight:normal;">Working two jobs</label>
+                    <label style="margin-bottom: 2px;">Multiple Jobs or Spouse Works:</label>
+                    <span class="subtext">W-4 Step 2</span>
+                    <div class="option-item" style="display: flex; align-items: center; margin-top: 14px;">
+                        <input type="checkbox" id="fed_multiple_jobs" value="Yes" style="margin-right: 8px; transform: scale(1.2);">
+                        <label for="fed_multiple_jobs" style="display:inline; font-weight:normal; margin: 0;">Working two jobs</label>
                     </div>
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group w-25">
-                    <label for="fed_dependents">Claim Dependents ($) <span class="subtext">W-4 Step 3</span></label>
+                    <label style="margin-bottom: 2px;">Claim Dependents ($)</label>
+                    <span class="subtext">W-4 Step 3</span>
                     <input type="text" id="fed_dependents" placeholder="0.00">
                 </div>
                 <div class="form-group w-25">
-                    <label for="fed_other_income">Other Income ($) <span class="subtext">W-4 Step 4 (a)</span></label>
+                    <label style="margin-bottom: 2px;">Other Income ($)</label>
+                    <span class="subtext">W-4 Step 4 (a)</span>
                     <input type="text" id="fed_other_income" placeholder="0.00">
                 </div>
                 <div class="form-group w-25">
-                    <label for="fed_deductions">Deductions ($) <span class="subtext">W-4 Step 4 (b)</span></label>
+                    <label style="margin-bottom: 2px;">Deductions ($)</label>
+                    <span class="subtext">W-4 Step 4 (b)</span>
                     <input type="text" id="fed_deductions" placeholder="0.00">
                 </div>
                 <div class="form-group w-25">
-                    <label for="fed_extra_withholding">Extra Withholding ($) <span class="subtext">W-4 Step 4 (c)</span></label>
+                    <label style="margin-bottom: 2px;">Extra Withholding ($)</label>
+                    <span class="subtext">W-4 Step 4 (c)</span>
                     <input type="text" id="fed_extra_withholding" placeholder="0.00">
                 </div>
             </div>
@@ -383,7 +386,7 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group w-50">
+                <div class="form-group style="flex: 100%;">
                     <label for="state_extra_withholding">State Extra Withholding ($)</label>
                     <input type="text" id="state_extra_withholding" placeholder="0.00">
                 </div>
