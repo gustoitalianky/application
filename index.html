@@ -543,6 +543,8 @@
         document.querySelectorAll('.pos-checkbox').forEach(cb => { if (cb.checked) positions.push(cb.value); });
 
         const formData = new URLSearchParams();
+        // Dynamically tags payload context routing for sheet splitting
+        formData.append('Form_Type', 'Onboarding');
         formData.append('Applicant_Name', document.getElementById('app_name').value);
         formData.append('Applicant_Email', document.getElementById('app_email').value);
         formData.append('Applicant_Age', document.getElementById('app_age').value);
