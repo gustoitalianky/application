@@ -120,11 +120,13 @@
 
         @media (min-width: 600px) { body { padding: 20px; } .container { padding: 40px; } .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; } }
 
+        /* ── EXPLICIT RULES WHEN PRINTING OR GENERATING A PDF ── */
         @media print {
             body { background: #fff; color: #000; padding: 0; }
             .container { box-shadow: none; padding: 0; max-width: 100%; }
             
-            .submit-panel, #successDashboard { display: none !important; }
+            /* Hide non-essential layout details from the PDF save screen */
+            .submit-panel, #successDashboard, #lockScreen { display: none !important; }
             .header-logo { display: none; }
             
             input, select { 
@@ -475,7 +477,6 @@
         if (e.key === 'Enter') { checkPasscode(); }
     });
 
-    // Automatically concats First and Last name into the digital signature block down below
     function updateSignatureField() {
         const first = document.getElementById('app_first_name').value.trim();
         const last = document.getElementById('app_last_name').value.trim();
@@ -547,7 +548,7 @@
         if (!checkCheckboxesValidity()) return;
 
         const btn = document.getElementById('saveAppBtn');
-        btn.innerText = "Saving...";
+        btn.innerText = "Saving Data...";
         btn.disabled = true;
 
         const positions = [];
@@ -582,11 +583,20 @@
         const scriptUrl = "https://script.google.com/macros/s/AKfycby6hppmeY7izHjz5MYBPFSE6fcMrLqO0mEmkgO2H6gRXwHftCrteMfQwzEsFHVsGcW8Cg/exec";
 
         try {
+            // 1. Post dataset securely into the backend Google Sheets configuration
             await fetch(scriptUrl, {
                 method: 'POST',
                 body: formData,
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             });
+
+            // 2. Hide the submit button element before print optimization maps out layout
+            btn.parentElement.style.display = 'none';
+
+            // 3. Prompt the OS to print or capture a PDF directly to device local file systems
+            window.print();
+
+            // 4. Reveal the post-onboarding completion dashboard instructions layout
             document.getElementById('successDashboard').style.display = 'block';
             document.getElementById('successDashboard').scrollIntoView({ behavior: 'smooth' });
         } catch (err) {
